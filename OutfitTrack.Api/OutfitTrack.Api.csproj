@@ -23,4 +23,8 @@
 		<ProjectReference Include="..\OutfitTrack.Infraestructure\OutfitTrack.Infraestructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Controllers\Product\" />
+	</ItemGroup>
+
 </Project>

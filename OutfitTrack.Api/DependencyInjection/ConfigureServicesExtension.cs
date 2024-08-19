@@ -63,6 +63,9 @@ public static class ConfigureServicesExtension
 
     private static void AddTransient()
     {
+        ServiceCollection.AddTransient<ICustomerService, CustomerService>();
+        ServiceCollection.AddTransient<ICustomerRepository, CustomerRepository>();
+     
         ServiceCollection.AddTransient<IApiDataService, ApiDataService>();
     }
 

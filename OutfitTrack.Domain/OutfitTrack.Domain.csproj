@@ -19,4 +19,11 @@
 		<ProjectReference Include="..\OutfitTrack.Arguments\OutfitTrack.Arguments.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Entities\Product\" />
+	  <Folder Include="Interfaces\Repository\Product\" />
+	  <Folder Include="Interfaces\Service\Product\" />
+	  <Folder Include="Services\Product\" />
+	</ItemGroup>
+
 </Project>
