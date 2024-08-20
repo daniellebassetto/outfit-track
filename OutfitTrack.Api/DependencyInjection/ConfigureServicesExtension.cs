@@ -9,6 +9,7 @@ using OutfitTrack.Domain.Mapping;
 using OutfitTrack.Domain.Services;
 using OutfitTrack.Infraestructure;
 using OutfitTrack.Infraestructure.Repositories;
+using System.Threading.RateLimiting;
 
 namespace OutfitTrack.Api;
 
@@ -23,7 +24,6 @@ public static class ConfigureServicesExtension
         Configuration = configuration;
 
         AddControlers();
-        AddAuthorization();
         AddOptions();
         AddTransient();
         AddScoped();
@@ -31,14 +31,10 @@ public static class ConfigureServicesExtension
         AddSwaggerGen();
         AddMySql();
         AddCors();
+        AddRateLimit();
         SetApiData();
 
         return ServiceCollection;
-    }
-
-    private static void SetApiData()
-    {
-        ApiData.SetMapper(new Domain.Mapping.Mapper(new MapperConfiguration(config => { config.AddProfile(new MapperEntityOutput()); }).CreateMapper(), new MapperConfiguration(config => { config.AddProfile(new MapperInputEntity()); }).CreateMapper()));
     }
 
     private static void AddControlers()
@@ -49,11 +45,6 @@ public static class ConfigureServicesExtension
             options.SerializerSettings.Formatting = Formatting.Indented;
             options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         });
-    }
-
-    private static void AddAuthorization()
-    {
-        ServiceCollection.AddAuthorization();
     }
 
     private static void AddOptions()
@@ -114,5 +105,29 @@ public static class ConfigureServicesExtension
     private static void AddCors()
     {
         ServiceCollection.AddCors(options => options.AddPolicy("wasm", policy => policy.WithOrigins("adicionar rota do front").AllowAnyMethod().SetIsOriginAllowed(pol => true).AllowAnyHeader().AllowCredentials()));
+    }
+
+    private static void AddRateLimit()
+    {
+        ServiceCollection.AddRateLimiter(options =>
+        {
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpcontext =>
+                                    RateLimitPartition.GetFixedWindowLimiter(
+                                                       partitionKey: httpcontext.Request.Headers.Host.ToString(),
+                                    factory: partition => new FixedWindowRateLimiterOptions
+                                    {
+                                        AutoReplenishment = true,
+                                        PermitLimit = 2,
+                                        QueueLimit = 0,
+                                        Window = TimeSpan.FromSeconds(5)
+                                    }));
+        });
+    }
+
+    private static void SetApiData()
+    {
+        ApiData.SetMapper(new Domain.Mapping.Mapper(new MapperConfiguration(config => { config.AddProfile(new MapperEntityOutput()); }).CreateMapper(), new MapperConfiguration(config => { config.AddProfile(new MapperInputEntity()); }).CreateMapper()));
     }
 }

@@ -60,7 +60,6 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
     public TEntity? Create(TEntity entity)
     {
         _context.Set<TEntity>().Add(entity.SetCreateData());
-        _context.SaveChanges();
         return entity;
     }
     #endregion
@@ -69,7 +68,6 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
     public TEntity? Update(TEntity entity)
     {
         _context.Set<TEntity>().Update(entity.SetUpdateData());
-        _context.SaveChanges();
         return entity;
     }
     #endregion
@@ -78,7 +76,6 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
     public bool Delete(TEntity entity)
     {
         _context.Set<TEntity>().Remove(entity);
-        _context.SaveChanges();
         return true;
     }
     #endregion

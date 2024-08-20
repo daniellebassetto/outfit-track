@@ -15,8 +15,10 @@ public class CustomerService(IUnitOfWork unitOfWork) : BaseService<ICustomerRepo
             throw new InvalidOperationException($"Cpf '{inputCreate.Cpf}' já cadastrado na base de dados.");
 
         Customer customer = FromInputCreateToEntity(inputCreate);
+        var entity = _repository.Create(customer);
+        _unitOfWork!.Commit();
 
-        return FromEntityToOutput(_repository.Create(customer) ?? new Customer());
+        return FromEntityToOutput(entity ?? new Customer());
     }
 
     public override OutputCustomer? Update(long id, InputUpdateCustomer inputUpdate)
@@ -24,8 +26,10 @@ public class CustomerService(IUnitOfWork unitOfWork) : BaseService<ICustomerRepo
         Customer? originalCustomer = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException($"Não foi encontrado nenhum cliente correspondente a este Id.");
 
         Customer customer = UpdateEntity(originalCustomer, inputUpdate) ?? throw new Exception("Problemas para realizar atualização");
+        var entity = _repository!.Update(customer);
+        _unitOfWork!.Commit();
 
-        return FromEntityToOutput(_repository!.Update(customer) ?? new Customer());
+        return FromEntityToOutput(entity ?? new Customer());
     }
 
     public override bool Delete(long id)
@@ -34,6 +38,9 @@ public class CustomerService(IUnitOfWork unitOfWork) : BaseService<ICustomerRepo
 
         if(originalCustomer.ListOrder?.Count == 0 || originalCustomer.ListOrder is null)
             throw new InvalidOperationException($"Esse cliente possui vínculo com pedidos");
+
+        _repository.Delete(originalCustomer);
+        _unitOfWork!.Commit();        
 
         return true;
     }

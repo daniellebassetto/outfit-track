@@ -23,6 +23,8 @@ app.UseCors("wasm");
 
 app.UseRouting();
 
+app.UseRateLimiter();
+
 app.MapControllers();
 
 app.Run();
