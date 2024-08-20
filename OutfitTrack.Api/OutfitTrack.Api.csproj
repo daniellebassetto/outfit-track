@@ -9,7 +9,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
@@ -21,10 +20,6 @@
 		<ProjectReference Include="..\OutfitTrack.Arguments\OutfitTrack.Arguments.csproj" />
 		<ProjectReference Include="..\OutfitTrack.Domain\OutfitTrack.Domain.csproj" />
 		<ProjectReference Include="..\OutfitTrack.Infraestructure\OutfitTrack.Infraestructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Controllers\Product\" />
 	</ItemGroup>
 
 </Project>

@@ -4,4 +4,4 @@ using OutfitTrack.Domain.Interfaces.Repository;
 
 namespace OutfitTrack.Infraestructure.Repository;
 
-public class CustomerRepository(OutfitTrackContext context) : BaseRepository<Customer, InputIdentifierCustomer>(context), ICustomerRepository { }
+public class ProductRepository(OutfitTrackContext context) : BaseRepository<Product, InputIdentifierProduct>(context), IProductRepository { }

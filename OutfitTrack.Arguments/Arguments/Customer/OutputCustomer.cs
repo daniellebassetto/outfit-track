@@ -15,6 +15,7 @@ public class OutputCustomer
     public string? Number { get; set; }
     public string? CityName { get; set; }
     public string? StateAbbreviation { get; set; }
+    public string? PostalCode { get; set; }
     public string? Rg { get; set; }
     public string? MobilePhoneNumber { get; set; }
     public string? Email { get; set; }

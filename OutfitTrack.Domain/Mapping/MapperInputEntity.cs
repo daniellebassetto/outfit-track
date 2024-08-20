@@ -12,5 +12,10 @@ public class MapperInputEntity : Profile
         CreateMap<InputCreateCustomer, Customer>().ReverseMap();
         CreateMap<InputUpdateCustomer, Customer>().ReverseMap();
         #endregion
+
+        #region Product
+        CreateMap<InputCreateProduct, Product>().ReverseMap();
+        CreateMap<InputUpdateProduct, Product>().ReverseMap();
+        #endregion
     }
 }

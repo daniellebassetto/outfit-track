@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OutfitTrack.Domain.Entities;
-using System.IO;
 
 namespace OutfitTrack.Infraestructure.Maps;
 
@@ -31,7 +30,7 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.FirstName).IsRequired();
         builder.Property(x => x.FirstName).HasColumnType("VARCHAR(50)");
         builder.Property(x => x.FirstName).ValueGeneratedNever();
-        
+
         builder.Property(x => x.LastName).HasColumnName("sobrenome");
         builder.Property(x => x.LastName).IsRequired();
         builder.Property(x => x.LastName).HasColumnType("VARCHAR(50)");
@@ -46,14 +45,13 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.Cpf).IsRequired();
         builder.Property(x => x.Cpf).HasColumnType("VARCHAR(11)");
         builder.Property(x => x.Cpf).ValueGeneratedNever();
-        
+
         builder.Property(x => x.Street).HasColumnName("endereco");
         builder.Property(x => x.Street).IsRequired();
         builder.Property(x => x.Street).HasColumnType("VARCHAR(100)");
         builder.Property(x => x.Street).ValueGeneratedNever();
-        
+
         builder.Property(x => x.Complement).HasColumnName("complemento");
-        builder.Property(x => x.Complement).IsRequired();
         builder.Property(x => x.Complement).HasColumnType("VARCHAR(100)");
         builder.Property(x => x.Complement).ValueGeneratedNever();
 
@@ -77,18 +75,20 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.StateAbbreviation).HasColumnType("VARCHAR(2)");
         builder.Property(x => x.StateAbbreviation).ValueGeneratedNever();
 
+        builder.Property(x => x.PostalCode).HasColumnName("codigo_postal");
+        builder.Property(x => x.PostalCode).HasColumnType("VARCHAR(8)");
+        builder.Property(x => x.PostalCode).ValueGeneratedNever();
+
         builder.Property(x => x.Rg).HasColumnName("rg");
-        builder.Property(x => x.Rg).IsRequired();
         builder.Property(x => x.Rg).HasColumnType("VARCHAR(9)");
-        builder.Property(x => x.Rg).ValueGeneratedNever();        
-        
+        builder.Property(x => x.Rg).ValueGeneratedNever();
+
         builder.Property(x => x.MobilePhoneNumber).HasColumnName("numero_celular");
         builder.Property(x => x.MobilePhoneNumber).IsRequired();
         builder.Property(x => x.MobilePhoneNumber).HasColumnType("VARCHAR(13)");
-        builder.Property(x => x.MobilePhoneNumber).ValueGeneratedNever();    
-        
+        builder.Property(x => x.MobilePhoneNumber).ValueGeneratedNever();
+
         builder.Property(x => x.Email).HasColumnName("email");
-        builder.Property(x => x.Email).IsRequired();
         builder.Property(x => x.Email).HasColumnType("VARCHAR(256)");
         builder.Property(x => x.Email).ValueGeneratedNever();
     }

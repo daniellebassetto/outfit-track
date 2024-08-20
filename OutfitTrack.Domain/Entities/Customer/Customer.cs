@@ -12,13 +12,14 @@ public class Customer : BaseEntity<Customer>
     public string? Number { get; set; }
     public string? CityName { get; set; }
     public string? StateAbbreviation { get; set; }
+    public string? PostalCode { get; set; }
     public string? Rg { get; set; }
     public string? MobilePhoneNumber { get; set; }
     public string? Email { get; set; }
 
     public Customer() { }
 
-    public Customer(string? firstName, string? lastName, DateTime? birthDate, string? cpf, string? street, string? complement, string? neighborhood, string? number, string? cityName, string? stateAbbreviation, string? rg, string? mobilePhoneNumber, string? email)
+    public Customer(string? firstName, string? lastName, DateTime? birthDate, string? cpf, string? street, string? complement, string? neighborhood, string? number, string? cityName, string? stateAbbreviation, string? postalCode, string? rg, string? mobilePhoneNumber, string? email)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -30,6 +31,7 @@ public class Customer : BaseEntity<Customer>
         Number = number;
         CityName = cityName;
         StateAbbreviation = stateAbbreviation;
+        PostalCode = postalCode;
         Rg = rg;
         MobilePhoneNumber = mobilePhoneNumber;
         Email = email;

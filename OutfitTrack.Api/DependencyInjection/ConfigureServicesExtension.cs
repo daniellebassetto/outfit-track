@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using OutfitTrack.Domain.ApiManagement;
-using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces.Repository;
 using OutfitTrack.Domain.Interfaces.Service;
 using OutfitTrack.Domain.Mapping;
@@ -65,16 +64,13 @@ public static class ConfigureServicesExtension
     {
         ServiceCollection.AddTransient<ICustomerService, CustomerService>();
         ServiceCollection.AddTransient<ICustomerRepository, CustomerRepository>();
-     
+
         ServiceCollection.AddTransient<IApiDataService, ApiDataService>();
     }
 
     private static void AddSingleton()
     {
-        var configure = new MapperConfiguration(config =>
-        {
-            config.AddProfile(new MapperGeneric<string, string>());
-        });
+        var configure = new MapperConfiguration(config => { config.AddProfile(new MapperGeneric<string, string>()); });
         IMapper mapper = configure.CreateMapper();
         ServiceCollection.AddSingleton(mapper);
         ServiceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -102,7 +98,6 @@ public static class ConfigureServicesExtension
         var connectionString = Configuration!.GetConnectionString("DataBase");
 
         ServiceCollection.AddDbContext<OutfitTrackContext>(opts => opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-        ServiceCollection.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<OutfitTrackContext>();
     }
 
     private static void AddCors()

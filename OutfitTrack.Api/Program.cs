@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using OutfitTrack.Api;
-using OutfitTrack.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,16 +22,6 @@ app.UseStaticFiles();
 app.UseCors("wasm");
 
 app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapGroup("auth").MapIdentityApi<User>().WithTags("Authorization");
-
-app.MapPost("auth/logout", async ([FromServices] SignInManager<User> signInManager) =>
-{
-    await signInManager.SignOutAsync();
-    return Results.Ok();
-}).RequireAuthorization().WithTags("Authorization");
 
 app.MapControllers();
 

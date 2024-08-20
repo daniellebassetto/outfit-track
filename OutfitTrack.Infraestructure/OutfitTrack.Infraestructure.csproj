@@ -17,8 +17,4 @@
 		<ProjectReference Include="..\OutfitTrack.Domain\OutfitTrack.Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Repositories\Product\" />
-	</ItemGroup>
-
 </Project>

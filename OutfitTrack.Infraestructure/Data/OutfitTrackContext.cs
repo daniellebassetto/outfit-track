@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Infraestructure.Maps;
 
 namespace OutfitTrack.Infraestructure;
 
-public class OutfitTrackContext : IdentityDbContext<User, UserRole, long>
+public class OutfitTrackContext : DbContext
 {
     public DbSet<Customer> Customer { get; set; }
+    public DbSet<Product> Product { get; set; }
 
     public OutfitTrackContext() { }
 
@@ -16,6 +16,7 @@ public class OutfitTrackContext : IdentityDbContext<User, UserRole, long>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CustomerMap());
+        modelBuilder.ApplyConfiguration(new ProductMap());
 
         base.OnModelCreating(modelBuilder);
     }

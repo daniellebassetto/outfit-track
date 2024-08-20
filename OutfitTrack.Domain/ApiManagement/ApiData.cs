@@ -1,31 +1,33 @@
 ﻿using OutfitTrack.Domain.Mapping;
+using System.Collections.Concurrent;
 
 namespace OutfitTrack.Domain.ApiManagement;
 
 public static class ApiData
 {
-    public static List<ApiDataRequest>? ListApiDataRequest { get; private set; }
-    public static Mapper Mapper { get; private set; }
+    public static ConcurrentDictionary<string, ApiDataRequest> ListApiDataRequest { get; private set; } = new ConcurrentDictionary<string, ApiDataRequest>();
+    public static Mapper? Mapper { get; private set; }
 
     public static Guid CreateApiDataRequest()
     {
         var newApiDataRequest = new ApiDataRequest();
-        ListApiDataRequest ??= [];
-        ListApiDataRequest.Add(newApiDataRequest);
+        AddItem(newApiDataRequest);
         return newApiDataRequest.GuidApiDataRequest;
     }
 
-    public static ApiDataRequest GetApiDataRequest(Guid guidApiDataRequest)
+    public static void AddItem(ApiDataRequest item)
     {
-        ApiDataRequest? apiDataRequest = (from i in ListApiDataRequest where i.GuidApiDataRequest == guidApiDataRequest select i).FirstOrDefault();
-        return apiDataRequest ?? throw new Exception("Invalid ApiDataRequest");
+        ListApiDataRequest.TryAdd(item.GuidApiDataRequest.ToString(), item);
     }
 
-    public static void RemoveApiDataRequest(Guid guidApiDataRequest)
+    public static ApiDataRequest GetApiDataRequest(Guid apiDataRequestId)
     {
-        ApiDataRequest? apiDataRequest = (from i in ListApiDataRequest ?? [] where i.GuidApiDataRequest == guidApiDataRequest select i).FirstOrDefault();
-        if (apiDataRequest != null)
-            ListApiDataRequest?.Remove(apiDataRequest);
+        return ListApiDataRequest[apiDataRequestId.ToString()];
+    }
+
+    public static void RemoveApiDataRequest(Guid guidBeesApiDataRequest)
+    {
+        ListApiDataRequest.TryRemove(guidBeesApiDataRequest.ToString(), out var item);
     }
 
     public static void SetMapper(Mapper mapper)

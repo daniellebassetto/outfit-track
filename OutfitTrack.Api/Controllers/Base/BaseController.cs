@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OutfitTrack.Domain.ApiManagement;
 using OutfitTrack.Domain.Interfaces.Service;
@@ -7,7 +6,6 @@ using OutfitTrack.Domain.Interfaces.Service;
 namespace OutfitTrack.Api.Controllers;
 
 [ApiController]
-[Authorize]
 public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInputIdentifier> : Controller
     where TIService : IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
 {

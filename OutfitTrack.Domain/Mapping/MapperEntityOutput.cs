@@ -11,5 +11,9 @@ public class MapperEntityOutput : Profile
         #region Customer
         CreateMap<Customer, OutputCustomer>().ReverseMap();
         #endregion
+
+        #region Product
+        CreateMap<Product, OutputProduct>().ReverseMap();
+        #endregion
     }
 }
