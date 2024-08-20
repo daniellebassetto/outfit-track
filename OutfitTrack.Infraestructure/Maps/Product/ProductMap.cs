@@ -43,15 +43,6 @@ public class ProductMap : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Price).HasColumnType("DECIMAL(10,2)");
         builder.Property(x => x.Price).ValueGeneratedNever();
 
-        builder.Property(x => x.Size).HasColumnName("tamanho");
-        builder.Property(x => x.Size).IsRequired();
-        builder.Property(x => x.Size).HasColumnType("VARCHAR(10)");
-        builder.Property(x => x.Size).ValueGeneratedNever();
-
-        builder.Property(x => x.Color).HasColumnName("cor");
-        builder.Property(x => x.Color).HasColumnType("VARCHAR(30)");
-        builder.Property(x => x.Color).ValueGeneratedNever();
-
         builder.Property(x => x.Brand).HasColumnName("marca");
         builder.Property(x => x.Brand).HasColumnType("VARCHAR(50)");
         builder.Property(x => x.Brand).ValueGeneratedNever();

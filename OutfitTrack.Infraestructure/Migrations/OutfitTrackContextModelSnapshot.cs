@@ -176,6 +176,11 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_cadastro");
 
+                    b.Property<int?>("Item")
+                        .IsRequired()
+                        .HasColumnType("INT")
+                        .HasColumnName("item");
+
                     b.Property<long?>("OrderId")
                         .IsRequired()
                         .HasColumnType("BIGINT")
@@ -229,10 +234,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("VARCHAR(20)")
                         .HasColumnName("codigo");
 
-                    b.Property<string>("Color")
-                        .HasColumnType("VARCHAR(30)")
-                        .HasColumnName("cor");
-
                     b.Property<DateTime?>("CreationDate")
                         .IsRequired()
                         .HasColumnType("DATETIME")
@@ -252,11 +253,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .IsRequired()
                         .HasColumnType("INT")
                         .HasColumnName("quantidade");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(10)")
-                        .HasColumnName("tamanho");
 
                     b.HasKey("Id");
 

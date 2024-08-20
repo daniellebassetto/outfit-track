@@ -12,7 +12,7 @@ using OutfitTrack.Infraestructure;
 namespace OutfitTrack.Infraestructure.Migrations
 {
     [DbContext(typeof(OutfitTrackContext))]
-    [Migration("20240820121824_Initial")]
+    [Migration("20240820152030_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -64,7 +64,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnName("data_cadastro");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("VARCHAR(256)")
                         .HasColumnName("email");
 
@@ -97,7 +96,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Rg")
-                        .IsRequired()
                         .HasColumnType("VARCHAR(9)")
                         .HasColumnName("rg");
 
@@ -181,6 +179,11 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_cadastro");
 
+                    b.Property<int?>("Item")
+                        .IsRequired()
+                        .HasColumnType("INT")
+                        .HasColumnName("item");
+
                     b.Property<long?>("OrderId")
                         .IsRequired()
                         .HasColumnType("BIGINT")
@@ -234,10 +237,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("VARCHAR(20)")
                         .HasColumnName("codigo");
 
-                    b.Property<string>("Color")
-                        .HasColumnType("VARCHAR(30)")
-                        .HasColumnName("cor");
-
                     b.Property<DateTime?>("CreationDate")
                         .IsRequired()
                         .HasColumnType("DATETIME")
@@ -257,11 +256,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .IsRequired()
                         .HasColumnType("INT")
                         .HasColumnName("quantidade");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(10)")
-                        .HasColumnName("tamanho");
 
                     b.HasKey("Id");
 

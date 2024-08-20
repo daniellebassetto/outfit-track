@@ -4,6 +4,7 @@ namespace OutfitTrack.Domain.Entities;
 
 public class OrderItem : BaseEntity<OrderItem>
 {
+    public int? Item { get; set; }
     public long? OrderId { get; set; }
     public long? ProductId { get; set; }
     public string? Color { get; set; }
@@ -15,8 +16,9 @@ public class OrderItem : BaseEntity<OrderItem>
 
     public OrderItem() { }
 
-    public OrderItem(long? orderId, long? productId, string? color, string? size, EnumStatusOrderItem? status, Product? product, Order? order)
+    public OrderItem(int? item, long? orderId, long? productId, string? color, string? size, EnumStatusOrderItem? status, Product? product, Order? order)
     {
+        Item = item;
         OrderId = orderId;
         ProductId = productId;
         Color = color;

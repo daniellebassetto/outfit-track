@@ -29,6 +29,11 @@ public class OrderItemMap : IEntityTypeConfiguration<OrderItem>
         builder.Property(x => x.ChangeDate).HasColumnType("DATETIME");
         builder.Property(x => x.ChangeDate).ValueGeneratedNever();
 
+        builder.Property(x => x.Item).HasColumnName("item");
+        builder.Property(x => x.Item).IsRequired();
+        builder.Property(x => x.Item).HasColumnType("INT");
+        builder.Property(x => x.Item).ValueGeneratedNever();
+
         builder.Property(x => x.OrderId).HasColumnName("id_pedido");
         builder.Property(x => x.OrderId).IsRequired();
         builder.Property(x => x.OrderId).HasColumnType("BIGINT");

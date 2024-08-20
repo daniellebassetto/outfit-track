@@ -1,4 +1,5 @@
-﻿using OutfitTrack.Domain.ApiManagement;
+﻿using OutfitTrack.Arguments;
+using OutfitTrack.Domain.ApiManagement;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces.Repository;
 using OutfitTrack.Domain.Interfaces.Service;
@@ -14,7 +15,7 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
     where TInputIdentifier : class
 {
     public Guid _guidApiDataRequest;
-    private readonly TIBaseRepository? _repository = unitOfWork!.GetRepository<TIBaseRepository, TEntity, TInputIdentifier>();
+    protected readonly TIBaseRepository? _repository = unitOfWork!.GetRepository<TIBaseRepository, TEntity, TInputIdentifier>();
 
     public void SetGuid(Guid guidApiDataRequest)
     {

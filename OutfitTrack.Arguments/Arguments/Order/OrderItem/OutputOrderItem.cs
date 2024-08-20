@@ -5,6 +5,7 @@ public class OutputOrderItem
     public long Id { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime? ChangeDate { get; set; }
+    public int? Item { get; set; }
     public long? OrderId { get; set; }
     public long? ProductId { get; set; }
     public string? Color { get; set; }

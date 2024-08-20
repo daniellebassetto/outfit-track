@@ -42,11 +42,11 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PostalCode = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    rg = table.Column<string>(type: "VARCHAR(9)", nullable: false)
+                    rg = table.Column<string>(type: "VARCHAR(9)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     numero_celular = table.Column<string>(type: "VARCHAR(13)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    email = table.Column<string>(type: "VARCHAR(256)", nullable: false)
+                    email = table.Column<string>(type: "VARCHAR(256)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     data_alteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)
@@ -68,10 +68,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                     descricao = table.Column<string>(type: "VARCHAR(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     preco = table.Column<decimal>(type: "DECIMAL(10,2)", nullable: false),
-                    tamanho = table.Column<string>(type: "VARCHAR(10)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    cor = table.Column<string>(type: "VARCHAR(30)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     marca = table.Column<string>(type: "VARCHAR(50)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     quantidade = table.Column<int>(type: "INT", nullable: false),
@@ -117,6 +113,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                 {
                     id = table.Column<long>(type: "BIGINT", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    item = table.Column<int>(type: "INT", nullable: false),
                     id_pedido = table.Column<long>(type: "BIGINT", nullable: false),
                     id_produto = table.Column<long>(type: "BIGINT", nullable: false),
                     cor = table.Column<string>(type: "VARCHAR(30)", nullable: true)
