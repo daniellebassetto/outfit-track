@@ -10,6 +10,8 @@ public class ProductMap : IEntityTypeConfiguration<Product>
     {
         builder.ToTable("produto");
 
+        builder.HasMany(x => x.ListOrderItem).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
+
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id).HasColumnName("id");

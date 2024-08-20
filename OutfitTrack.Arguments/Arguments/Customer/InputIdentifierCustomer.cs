@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
 
 namespace OutfitTrack.Arguments;
 
 public class InputIdentifierCustomer
 {
-    [Required][Length(11, 11, ErrorMessage = "Quantidade de caracteres inválida")] public string? Cpf { get; set; }
+    public string? Cpf { get; private set; }
 
     public InputIdentifierCustomer() { }
 
+    [JsonConstructor]
     public InputIdentifierCustomer(string? cpf)
     {
         Cpf = cpf;

@@ -8,6 +8,8 @@ public class OutfitTrackContext : DbContext
 {
     public DbSet<Customer> Customer { get; set; }
     public DbSet<Product> Product { get; set; }
+    public DbSet<Order> Order { get; set; }
+    public DbSet<OrderItem> OrderItem { get; set; }
 
     public OutfitTrackContext() { }
 
@@ -17,6 +19,8 @@ public class OutfitTrackContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new CustomerMap());
         modelBuilder.ApplyConfiguration(new ProductMap());
+        modelBuilder.ApplyConfiguration(new OrderMap());
+        modelBuilder.ApplyConfiguration(new OrderItemMap());
 
         base.OnModelCreating(modelBuilder);
     }

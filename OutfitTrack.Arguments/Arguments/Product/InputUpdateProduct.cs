@@ -1,27 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
 
 namespace OutfitTrack.Arguments;
 
 public class InputUpdateProduct
 {
-    [Required][MaxLength(100, ErrorMessage = "Quantidade de caracteres inválida")] public string? Description { get; set; }
-    [Required] public decimal? Price { get; set; }
-    [Required][MaxLength(10, ErrorMessage = "Quantidade de caracteres inválida")] public string? Size { get; set; }
-    [MaxLength(30, ErrorMessage = "Quantidade de caracteres inválida")] public string? Color { get; set; }
-    [MaxLength(50, ErrorMessage = "Quantidade de caracteres inválida")] public string? Brand { get; set; }
-    [Required] public int? Quantity { get; set; }
-    [MaxLength(100, ErrorMessage = "Quantidade de caracteres inválida")] public string? Category { get; set; }
+    public string? Description { get; private set; }
+    public decimal? Price { get; private set; }
+    public string? Size { get; private set; }
+    public string? Color { get; private set; }
+    public string? Brand { get; private set; }
+    public string? Category { get; private set; }
 
     public InputUpdateProduct() { }
 
-    public InputUpdateProduct(string description, decimal price, string size, string? color, string? brand, int quantity, string? category)
+    [JsonConstructor]
+    public InputUpdateProduct(string description, decimal price, string size, string? color, string? brand, string? category)
     {
         Description = description;
         Price = price;
         Size = size;
         Color = color;
         Brand = brand;
-        Quantity = quantity;
         Category = category;
     }
 }

@@ -1,14 +1,16 @@
 ﻿using Newtonsoft.Json;
 using OutfitTrack.Domain.ApiManagement;
+using System.ComponentModel.DataAnnotations;
 
 namespace OutfitTrack.Domain.Entities;
 
 public class BaseEntity<TEntity> : BaseSetProperty<TEntity>
     where TEntity : BaseEntity<TEntity>
 {
-    [JsonIgnore] public virtual long? Id { get; set; }
-    [JsonIgnore] public virtual DateTime? CreationDate { get; set; }
-    [JsonIgnore] public virtual DateTime? ChangeDate { get; set; }
+    [Required]
+    public virtual long? Id { get; set; }
+    public virtual DateTime? CreationDate { get; set; }
+    public virtual DateTime? ChangeDate { get; set; }
 
     public TEntity SetCreateData()
     {

@@ -17,9 +17,11 @@ public class Customer : BaseEntity<Customer>
     public string? MobilePhoneNumber { get; set; }
     public string? Email { get; set; }
 
+    public virtual List<Order>? ListOrder { get; set; }
+
     public Customer() { }
 
-    public Customer(string? firstName, string? lastName, DateTime? birthDate, string? cpf, string? street, string? complement, string? neighborhood, string? number, string? cityName, string? stateAbbreviation, string? postalCode, string? rg, string? mobilePhoneNumber, string? email)
+    public Customer(string? firstName, string? lastName, DateTime? birthDate, string? cpf, string? street, string? complement, string? neighborhood, string? number, string? cityName, string? stateAbbreviation, string? postalCode, string? rg, string? mobilePhoneNumber, string? email, List<Order>? listOrder)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -35,5 +37,6 @@ public class Customer : BaseEntity<Customer>
         Rg = rg;
         MobilePhoneNumber = mobilePhoneNumber;
         Email = email;
+        ListOrder = listOrder;
     }
 }

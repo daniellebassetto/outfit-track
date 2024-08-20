@@ -11,6 +11,7 @@ public class OutputProduct
     public string? Size { get; set; }
     public string? Color { get; set; }
     public string? Brand { get; set; }
-    public int? Quantity { get; set; }
     public string? Category { get; set; }
+
+    public virtual List<OutputOrderItem>? ListOrderItem { get; set; }
 }

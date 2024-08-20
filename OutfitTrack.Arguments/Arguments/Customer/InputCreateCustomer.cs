@@ -1,26 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
 
 namespace OutfitTrack.Arguments;
 
 public class InputCreateCustomer
 {
-    [Required][MaxLength(50, ErrorMessage = "Quantidade de caracteres inválida")] public string? FirstName { get; set; }
-    [Required][MaxLength(50, ErrorMessage = "Quantidade de caracteres inválida")] public string? LastName { get; set; }
-    [Required] public DateTime? BirthDate { get; set; }
-    [Required][Length(11, 11, ErrorMessage = "Quantidade de caracteres inválida")] public string? Cpf { get; set; }
-    [Required][MaxLength(100, ErrorMessage = "Quantidade de caracteres inválida")] public string? Street { get; set; }
-    [MaxLength(100, ErrorMessage = "Quantidade de caracteres inválida")] public string? Complement { get; set; }
-    [Required][MaxLength(50, ErrorMessage = "Quantidade de caracteres inválida")] public string? Neighborhood { get; set; }
-    [Required][MaxLength(10, ErrorMessage = "Quantidade de caracteres inválida")] public string? Number { get; set; }
-    [Required][MaxLength(50, ErrorMessage = "Quantidade de caracteres inválida")] public string? CityName { get; set; }
-    [Required][Length(2, 2, ErrorMessage = "Quantidade de caracteres inválida")] public string? StateAbbreviation { get; set; }
-    [Length(8, 8, ErrorMessage = "Quantidade de caracteres inválida")] public string? PostalCode { get; set; }
-    [Length(9, 9, ErrorMessage = "Quantidade de caracteres inválida")] public string? Rg { get; set; }
-    [Required][Length(13, 13, ErrorMessage = "Quantidade de caracteres inválida")] public string? MobilePhoneNumber { get; set; }
-    [MaxLength(256, ErrorMessage = "Quantidade de caracteres inválida")] public string? Email { get; set; }
+    public string? FirstName { get; private set; }
+    public string? LastName { get; private set; }
+    public DateTime? BirthDate { get; private set; }
+    public string? Cpf { get; private set; }
+    public string? Street { get; private set; }
+    public string? Complement { get; private set; }
+    public string? Neighborhood { get; private set; }
+    public string? Number { get; private set; }
+    public string? CityName { get; private set; }
+    public string? StateAbbreviation { get; private set; }
+    public string? PostalCode { get; private set; }
+    public string? Rg { get; private set; }
+    public string? MobilePhoneNumber { get; private set; }
+    public string? Email { get; private set; }
 
     public InputCreateCustomer() { }
 
+    [JsonConstructor]
     public InputCreateCustomer(string firstName, string? lastName, DateTime birthDate, string cpf, string street, string? complement, string neighborhood, string number, string cityName, string stateAbbreviation, string? postalCode, string rg, string mobilePhoneNumber, string? email)
     {
         FirstName = firstName;

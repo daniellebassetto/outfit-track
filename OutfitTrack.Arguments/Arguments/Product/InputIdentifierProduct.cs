@@ -1,14 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
 
 namespace OutfitTrack.Arguments;
 
 public class InputIdentifierProduct
 {
-    [Required][MaxLength(20, ErrorMessage = "Quantidade de caracteres inválida")] public string? Code { get; set; }
+    public string? Code { get; private set; }
 
     public InputIdentifierProduct() { }
 
-    public InputIdentifierProduct(string? code)
+    [JsonConstructor]
+    public InputIdentifierProduct(string code)
     {
         Code = code;
     }

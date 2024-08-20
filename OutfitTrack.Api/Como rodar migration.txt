@@ -1,5 +1,5 @@
 Rodar na pasta da solução:
-dotnet ef migrations add CustomerTable --project OutfitTrack.Infraestructure -s OutfitTrack.Api -c OutfitTrackContext --verbose
+dotnet ef migrations add Initial --project OutfitTrack.Infraestructure -s OutfitTrack.Api -c OutfitTrackContext --verbose
 
 Rodar no projeto api:
 dotnet ef database update

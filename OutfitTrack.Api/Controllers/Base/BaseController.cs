@@ -8,6 +8,9 @@ namespace OutfitTrack.Api.Controllers;
 [ApiController]
 public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInputIdentifier> : Controller
     where TIService : IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
+    where TInputCreate : new()
+    where TInputUpdate : new()
+    where TInputIdentifier : new()
 {
     protected readonly IApiDataService? _apiDataService;
     public Guid _guidApiDataRequest;

@@ -11,9 +11,11 @@ public class Product : BaseEntity<Product>
     public int? Quantity { get; set; }
     public string? Category { get; set; }
 
+    public virtual List<OrderItem>? ListOrderItem { get; set; }
+
     public Product() { }
 
-    public Product(string? code, string? description, decimal? price, string? size, string? color, string? brand, int? quantity, string? category)
+    public Product(string? code, string? description, decimal? price, string? size, string? color, string? brand, int? quantity, string? category, List<OrderItem>? listOrderItem)
     {
         Code = code;
         Description = description;
@@ -23,5 +25,6 @@ public class Product : BaseEntity<Product>
         Brand = brand;
         Quantity = quantity;
         Category = category;
+        ListOrderItem = listOrderItem;
     }
 }

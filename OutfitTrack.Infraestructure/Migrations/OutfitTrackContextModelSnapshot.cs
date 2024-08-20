@@ -46,6 +46,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnName("nome_cidade");
 
                     b.Property<string>("Complement")
+                        .IsRequired()
                         .HasColumnType("VARCHAR(100)")
                         .HasColumnName("complemento");
 
@@ -60,6 +61,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnName("data_cadastro");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("VARCHAR(256)")
                         .HasColumnName("email");
 
@@ -89,10 +91,10 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnName("numero");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("VARCHAR(8)")
-                        .HasColumnName("codigo_postal");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Rg")
+                        .IsRequired()
                         .HasColumnType("VARCHAR(9)")
                         .HasColumnName("rg");
 
@@ -109,6 +111,98 @@ namespace OutfitTrack.Infraestructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("cliente", (string)null);
+                });
+
+            modelBuilder.Entity("OutfitTrack.Domain.Entities.Order", b =>
+                {
+                    b.Property<long?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("BIGINT")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
+
+                    b.Property<DateTime?>("ChangeDate")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("data_alteracao");
+
+                    b.Property<DateTime?>("ClosingDate")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("data_encerramento");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .IsRequired()
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("data_cadastro");
+
+                    b.Property<long?>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("BIGINT")
+                        .HasColumnName("id_cliente");
+
+                    b.Property<long?>("Number")
+                        .IsRequired()
+                        .HasColumnType("BIGINT")
+                        .HasColumnName("numero");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INT")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("pedido", (string)null);
+                });
+
+            modelBuilder.Entity("OutfitTrack.Domain.Entities.OrderItem", b =>
+                {
+                    b.Property<long?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("BIGINT")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
+
+                    b.Property<DateTime?>("ChangeDate")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("data_alteracao");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("VARCHAR(30)")
+                        .HasColumnName("cor");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .IsRequired()
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("data_cadastro");
+
+                    b.Property<long?>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("BIGINT")
+                        .HasColumnName("id_pedido");
+
+                    b.Property<long?>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("BIGINT")
+                        .HasColumnName("id_produto");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("VARCHAR(10)")
+                        .HasColumnName("tamanho");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INT")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("pedido_item", (string)null);
                 });
 
             modelBuilder.Entity("OutfitTrack.Domain.Entities.Product", b =>
@@ -169,6 +263,51 @@ namespace OutfitTrack.Infraestructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("produto", (string)null);
+                });
+
+            modelBuilder.Entity("OutfitTrack.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("OutfitTrack.Domain.Entities.Customer", "Customer")
+                        .WithMany("ListOrder")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("OutfitTrack.Domain.Entities.OrderItem", b =>
+                {
+                    b.HasOne("OutfitTrack.Domain.Entities.Order", "Order")
+                        .WithMany("ListOrderItem")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OutfitTrack.Domain.Entities.Product", "Product")
+                        .WithMany("ListOrderItem")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("OutfitTrack.Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("ListOrder");
+                });
+
+            modelBuilder.Entity("OutfitTrack.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("ListOrderItem");
+                });
+
+            modelBuilder.Entity("OutfitTrack.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("ListOrderItem");
                 });
 #pragma warning restore 612, 618
         }
