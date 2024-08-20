@@ -5,4 +5,4 @@ using OutfitTrack.Domain.Interfaces.Service;
 
 namespace OutfitTrack.Domain.Services;
 
-public class CustomerService(ICustomerRepository repository) : BaseService<ICustomerRepository, InputCreateCustomer, InputUpdateCustomer, Customer, OutputCustomer, InputIdentifierCustomer>(repository), ICustomerService { }
+public class CustomerService(IUnitOfWork unitOfWork) : BaseService<ICustomerRepository, InputCreateCustomer, InputUpdateCustomer, Customer, OutputCustomer, InputIdentifierCustomer>(unitOfWork), ICustomerService { }

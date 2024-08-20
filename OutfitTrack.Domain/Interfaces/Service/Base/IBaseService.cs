@@ -1,11 +1,15 @@
 ﻿namespace OutfitTrack.Domain.Interfaces.Service;
 
 public interface IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
+   where TInputCreate : class
+   where TInputUpdate : class
+   where TOutput : class
+   where TInputIdentifier : class
 {
-    List<TOutput>? GetAll();
+    IEnumerable<TOutput>? GetAll();
     TOutput? Get(long id);
     TOutput? GetByIdentifier(TInputIdentifier inputIdentifier);
-    long? Create(TInputCreate entity);
-    long? Update(long id, TInputUpdate inputUpdate);
+    TOutput? Create(TInputCreate entity);
+    TOutput? Update(long id, TInputUpdate inputUpdate);
     bool Delete(long id);
 }

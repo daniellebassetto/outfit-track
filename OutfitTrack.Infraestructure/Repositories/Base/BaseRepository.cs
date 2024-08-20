@@ -4,24 +4,25 @@ using OutfitTrack.Domain.Interfaces.Repository;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace OutfitTrack.Infraestructure.Repository;
+namespace OutfitTrack.Infraestructure.Repositories;
 
 public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext context) : IBaseRepository<TEntity, TInputIdentifier>
     where TEntity : BaseEntity<TEntity>, new()
+    where TInputIdentifier : class
 {
     protected readonly OutfitTrackContext _context = context;
 
     #region Read
-    public List<TEntity>? GetAll()
+    public IEnumerable<TEntity>? GetAll()
     {
         IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
         query = BaseRepository<TEntity, TInputIdentifier>.IncludeVirtualProperties(query);
         return [.. query];
     }
 
-    public TEntity? Get(long id)
+    public TEntity? Get(Expression<Func<TEntity, bool>> predicate)
     {
-        IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking().Where(x => x.Id == id);
+        IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking().Where(predicate);
         query = BaseRepository<TEntity, TInputIdentifier>.IncludeVirtualProperties(query);
         return query.FirstOrDefault();
     }
@@ -56,27 +57,27 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
     #endregion
 
     #region Create
-    public long? Create(TEntity entity)
+    public TEntity? Create(TEntity entity)
     {
-        _context.Add(entity.SetCreateData());
+        _context.Set<TEntity>().Add(entity.SetCreateData());
         _context.SaveChanges();
-        return entity.Id;
+        return entity;
     }
     #endregion
 
     #region Update
-    public long? Update(TEntity entity)
+    public TEntity? Update(TEntity entity)
     {
-        _context.Update(entity.SetUpdateData());
+        _context.Set<TEntity>().Update(entity.SetUpdateData());
         _context.SaveChanges();
-        return entity.Id;
+        return entity;
     }
     #endregion
 
     #region Delete
     public bool Delete(TEntity entity)
     {
-        _context.Remove(entity);
+        _context.Set<TEntity>().Remove(entity);
         _context.SaveChanges();
         return true;
     }

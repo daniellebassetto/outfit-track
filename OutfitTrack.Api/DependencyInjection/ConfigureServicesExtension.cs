@@ -8,7 +8,7 @@ using OutfitTrack.Domain.Interfaces.Service;
 using OutfitTrack.Domain.Mapping;
 using OutfitTrack.Domain.Services;
 using OutfitTrack.Infraestructure;
-using OutfitTrack.Infraestructure.Repository;
+using OutfitTrack.Infraestructure.Repositories;
 
 namespace OutfitTrack.Api;
 
@@ -26,6 +26,7 @@ public static class ConfigureServicesExtension
         AddAuthorization();
         AddOptions();
         AddTransient();
+        AddScoped();
         AddSingleton();
         AddSwaggerGen();
         AddMySql();
@@ -64,8 +65,18 @@ public static class ConfigureServicesExtension
     {
         ServiceCollection.AddTransient<ICustomerService, CustomerService>();
         ServiceCollection.AddTransient<ICustomerRepository, CustomerRepository>();
+        ServiceCollection.AddTransient<IProductService, ProductService>();
+        ServiceCollection.AddTransient<IProductRepository, ProductRepository>();
+        ServiceCollection.AddTransient<IOrderService, OrderService>();
+        ServiceCollection.AddTransient<IOrderRepository, OrderRepository>();
+        ServiceCollection.AddTransient<IOrderItemRepository, OrderItemRepository>();
 
         ServiceCollection.AddTransient<IApiDataService, ApiDataService>();
+    }
+
+    private static void AddScoped()
+    {
+        ServiceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
     private static void AddSingleton()

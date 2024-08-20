@@ -1,14 +1,16 @@
 ﻿using OutfitTrack.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace OutfitTrack.Domain.Interfaces.Repository;
 
 public interface IBaseRepository<TEntity, TInputIdentifier>
     where TEntity : BaseEntity<TEntity>
+    where TInputIdentifier : class
 {
-    List<TEntity>? GetAll();
-    TEntity? Get(long id);
+    IEnumerable<TEntity>? GetAll();
+    TEntity? Get(Expression<Func<TEntity, bool>> predicate);
     TEntity? GetByIdentifier(TInputIdentifier inputIdentifier);
-    long? Create(TEntity entity);
-    long? Update(TEntity entity);
+    TEntity? Create(TEntity entity);
+    TEntity? Update(TEntity entity);
     bool Delete(TEntity entity);
 }

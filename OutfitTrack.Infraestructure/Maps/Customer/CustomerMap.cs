@@ -79,7 +79,6 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.StateAbbreviation).ValueGeneratedNever();
 
         builder.Property(x => x.Rg).HasColumnName("rg");
-        builder.Property(x => x.Rg).IsRequired();
         builder.Property(x => x.Rg).HasColumnType("VARCHAR(9)");
         builder.Property(x => x.Rg).ValueGeneratedNever();
 
@@ -89,7 +88,6 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.MobilePhoneNumber).ValueGeneratedNever();
 
         builder.Property(x => x.Email).HasColumnName("email");
-        builder.Property(x => x.Email).IsRequired();
         builder.Property(x => x.Email).HasColumnType("VARCHAR(256)");
         builder.Property(x => x.Email).ValueGeneratedNever();
     }

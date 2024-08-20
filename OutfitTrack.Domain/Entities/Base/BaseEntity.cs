@@ -26,3 +26,5 @@ public class BaseEntity<TEntity> : BaseSetProperty<TEntity>
         return (this as TEntity)!;
     }
 }
+
+public class BaseEntity_0 : BaseEntity<BaseEntity_0> { }

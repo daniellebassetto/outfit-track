@@ -8,9 +8,10 @@ namespace OutfitTrack.Api.Controllers;
 [ApiController]
 public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInputIdentifier> : Controller
     where TIService : IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
-    where TInputCreate : new()
-    where TInputUpdate : new()
-    where TInputIdentifier : new()
+    where TInputCreate : class
+    where TInputUpdate : class
+    where TOutput : class
+    where TInputIdentifier : class
 {
     protected readonly IApiDataService? _apiDataService;
     public Guid _guidApiDataRequest;
@@ -29,7 +30,7 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
 
     #region Read
     [HttpGet]
-    public virtual async Task<ActionResult<BaseResponseApi<List<TOutput>>>> GetAll()
+    public virtual async Task<ActionResult<BaseResponseApi<IEnumerable<TOutput>>>> GetAll()
     {
         try
         {
@@ -41,7 +42,7 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:long}")]
     public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Get(long id)
     {
         try
@@ -70,11 +71,11 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
 
     #region Create
     [HttpPost]
-    public virtual async Task<ActionResult<BaseResponseApi<long>>> Create(TInputCreate inputCreate)
+    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Create(TInputCreate inputCreate)
     {
         try
         {
-            return await ResponseAsync(_service?.Create(inputCreate), 201);
+            return await ResponseAsync(_service!.Create(inputCreate), 201);
         }
         catch (Exception ex)
         {
@@ -84,12 +85,12 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     #endregion
 
     #region Update
-    [HttpPut("{id}")]
-    public virtual async Task<ActionResult<BaseResponseApi<long>>> Update(long id, TInputUpdate inputUpdate)
+    [HttpPut("{id:long}")]
+    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Update(long id, TInputUpdate inputUpdate)
     {
         try
         {
-            return await ResponseAsync(_service?.Update(id, inputUpdate));
+            return await ResponseAsync(_service!.Update(id, inputUpdate));
         }
         catch (Exception ex)
         {

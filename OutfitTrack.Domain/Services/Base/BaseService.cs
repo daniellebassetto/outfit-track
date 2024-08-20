@@ -5,12 +5,17 @@ using OutfitTrack.Domain.Interfaces.Service;
 
 namespace OutfitTrack.Domain.Services;
 
-public class BaseService<TBaseRepository, TInputCreate, TInputUpdate, TEntity, TOutput, TInputIdentifier>(TBaseRepository? repository) : IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
-    where TBaseRepository : IBaseRepository<TEntity, TInputIdentifier>
+public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, TOutput, TInputIdentifier>(IUnitOfWork? unitOfWork) : IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
+    where TIBaseRepository : IBaseRepository<TEntity, TInputIdentifier>
     where TEntity : BaseEntity<TEntity>, new()
+    where TInputCreate : class
+    where TInputUpdate : class
+    where TOutput : class
+    where TInputIdentifier : class
 {
     public Guid _guidApiDataRequest;
-    protected TBaseRepository? _repository = repository;
+    private readonly TIBaseRepository? _repository = unitOfWork!.GetRepository<TIBaseRepository, TEntity, TInputIdentifier>();
+
     public void SetGuid(Guid guidApiDataRequest)
     {
         _guidApiDataRequest = guidApiDataRequest;
@@ -18,7 +23,7 @@ public class BaseService<TBaseRepository, TInputCreate, TInputUpdate, TEntity, T
     }
 
     #region Read
-    public virtual List<TOutput>? GetAll()
+    public virtual IEnumerable<TOutput>? GetAll()
     {
         var listEntity = _repository!.GetAll();
 
@@ -30,7 +35,7 @@ public class BaseService<TBaseRepository, TInputCreate, TInputUpdate, TEntity, T
 
     public virtual TOutput? Get(long id)
     {
-        var entity = _repository!.Get(id);
+        var entity = _repository!.Get(x => x.Id == id);
 
         if (entity is not null)
             return FromEntityToOutput(entity);
@@ -50,19 +55,19 @@ public class BaseService<TBaseRepository, TInputCreate, TInputUpdate, TEntity, T
     #endregion
 
     #region Create
-    public virtual long? Create(TInputCreate inputCreate)
+    public virtual TOutput? Create(TInputCreate inputCreate)
     {
-        return _repository!.Create(FromInputCreateToEntity(inputCreate) ?? new TEntity());
+        return FromEntityToOutput(_repository!.Create(FromInputCreateToEntity(inputCreate) ?? new TEntity()) ?? new TEntity());
     }
     #endregion
 
     #region Update
-    public virtual long? Update(long id, TInputUpdate inputUpdate)
+    public virtual TOutput? Update(long id, TInputUpdate inputUpdate)
     {
-        var oldEntity = Get(id) ?? throw new KeyNotFoundException("Id inválido ou inexistente. Processo: Update");
+        var oldEntity = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Id inválido ou inexistente. Processo: Update");
 
-        var entity = BaseService<TBaseRepository, TInputCreate, TInputUpdate, TEntity, TOutput, TInputIdentifier>.UpdateEntity(FromOutputToEntity(oldEntity), inputUpdate);
-        return _repository!.Update(entity ?? new TEntity());
+        var entity = BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, TOutput, TInputIdentifier>.UpdateEntity(oldEntity, inputUpdate);
+        return FromEntityToOutput(_repository!.Update(entity ?? new TEntity()) ?? new TEntity());
     }
 
     protected static TEntity? UpdateEntity(TEntity oldEntity, TInputUpdate inputUpdate)
@@ -84,8 +89,8 @@ public class BaseService<TBaseRepository, TInputCreate, TInputUpdate, TEntity, T
     #region Delete
     public virtual bool Delete(long id)
     {
-        var entity = Get(id) ?? throw new KeyNotFoundException("Id inválido ou inexistente. Processo: Delete");
-        _repository!.Delete(FromOutputToEntity(entity));
+        var entity = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Id inválido ou inexistente. Processo: Delete");
+        _repository.Delete(entity);
         return true;
     }
     #endregion
@@ -96,9 +101,9 @@ public class BaseService<TBaseRepository, TInputCreate, TInputUpdate, TEntity, T
         return ApiData.Mapper.MapperEntityOutput.Map<TEntity, TOutput>(entity);
     }
 
-    public List<TOutput>? FromEntityToOutput(List<TEntity> listEntity)
+    public IEnumerable<TOutput>? FromEntityToOutput(IEnumerable<TEntity> listEntity)
     {
-        return ApiData.Mapper.MapperEntityOutput.Map<List<TEntity>, List<TOutput>>(listEntity);
+        return ApiData.Mapper.MapperEntityOutput.Map<IEnumerable<TEntity>, IEnumerable<TOutput>>(listEntity);
     }
 
     public TEntity FromOutputToEntity(TOutput output)
