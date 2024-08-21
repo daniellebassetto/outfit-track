@@ -12,7 +12,7 @@ using OutfitTrack.Infraestructure;
 namespace OutfitTrack.Infraestructure.Migrations
 {
     [DbContext(typeof(OutfitTrackContext))]
-    [Migration("20240820152030_Initial")]
+    [Migration("20240821155612_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -50,13 +50,16 @@ namespace OutfitTrack.Infraestructure.Migrations
 
                     b.Property<string>("Complement")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("VARCHAR(100)")
                         .HasColumnName("complemento");
 
                     b.Property<string>("Cpf")
                         .IsRequired()
+                        .HasMaxLength(11)
                         .HasColumnType("VARCHAR(11)")
-                        .HasColumnName("cpf");
+                        .HasColumnName("cpf")
+                        .IsFixedLength();
 
                     b.Property<DateTime?>("CreationDate")
                         .IsRequired()
@@ -64,6 +67,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnName("data_cadastro");
 
                     b.Property<string>("Email")
+                        .HasMaxLength(256)
                         .HasColumnType("VARCHAR(256)")
                         .HasColumnName("email");
 
@@ -79,8 +83,10 @@ namespace OutfitTrack.Infraestructure.Migrations
 
                     b.Property<string>("MobilePhoneNumber")
                         .IsRequired()
+                        .HasMaxLength(13)
                         .HasColumnType("VARCHAR(13)")
-                        .HasColumnName("numero_celular");
+                        .HasColumnName("numero_celular")
+                        .IsFixedLength();
 
                     b.Property<string>("Neighborhood")
                         .IsRequired()
@@ -89,13 +95,16 @@ namespace OutfitTrack.Infraestructure.Migrations
 
                     b.Property<string>("Number")
                         .IsRequired()
+                        .HasMaxLength(10)
                         .HasColumnType("VARCHAR(10)")
-                        .HasColumnName("numero");
+                        .HasColumnName("numero")
+                        .IsFixedLength();
 
                     b.Property<string>("PostalCode")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Rg")
+                        .HasMaxLength(9)
                         .HasColumnType("VARCHAR(9)")
                         .HasColumnName("rg");
 

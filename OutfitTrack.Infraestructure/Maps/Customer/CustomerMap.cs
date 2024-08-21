@@ -45,7 +45,7 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
 
         builder.Property(x => x.Cpf).HasColumnName("cpf");
         builder.Property(x => x.Cpf).IsRequired();
-        builder.Property(x => x.Cpf).HasColumnType("VARCHAR(11)");
+        builder.Property(x => x.Cpf).HasColumnType("VARCHAR(11)").HasMaxLength(11).IsFixedLength();
         builder.Property(x => x.Cpf).ValueGeneratedNever();
 
         builder.Property(x => x.Street).HasColumnName("endereco");
@@ -55,7 +55,7 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
 
         builder.Property(x => x.Complement).HasColumnName("complemento");
         builder.Property(x => x.Complement).IsRequired();
-        builder.Property(x => x.Complement).HasColumnType("VARCHAR(100)");
+        builder.Property(x => x.Complement).HasColumnType("VARCHAR(100)").HasMaxLength(100);
         builder.Property(x => x.Complement).ValueGeneratedNever();
 
         builder.Property(x => x.Neighborhood).HasColumnName("bairro");
@@ -65,7 +65,7 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
 
         builder.Property(x => x.Number).HasColumnName("numero");
         builder.Property(x => x.Number).IsRequired();
-        builder.Property(x => x.Number).HasColumnType("VARCHAR(10)");
+        builder.Property(x => x.Number).HasColumnType("VARCHAR(10)").HasMaxLength(10).IsFixedLength();
         builder.Property(x => x.Number).ValueGeneratedNever();
 
         builder.Property(x => x.CityName).HasColumnName("nome_cidade");
@@ -79,16 +79,16 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.StateAbbreviation).ValueGeneratedNever();
 
         builder.Property(x => x.Rg).HasColumnName("rg");
-        builder.Property(x => x.Rg).HasColumnType("VARCHAR(9)");
+        builder.Property(x => x.Rg).HasColumnType("VARCHAR(9)").HasMaxLength(9);
         builder.Property(x => x.Rg).ValueGeneratedNever();
 
         builder.Property(x => x.MobilePhoneNumber).HasColumnName("numero_celular");
         builder.Property(x => x.MobilePhoneNumber).IsRequired();
-        builder.Property(x => x.MobilePhoneNumber).HasColumnType("VARCHAR(13)");
+        builder.Property(x => x.MobilePhoneNumber).HasColumnType("VARCHAR(13)").HasMaxLength(13).IsFixedLength();
         builder.Property(x => x.MobilePhoneNumber).ValueGeneratedNever();
 
         builder.Property(x => x.Email).HasColumnName("email");
-        builder.Property(x => x.Email).HasColumnType("VARCHAR(256)");
+        builder.Property(x => x.Email).HasColumnType("VARCHAR(256)").HasMaxLength(256);
         builder.Property(x => x.Email).ValueGeneratedNever();
     }
 }

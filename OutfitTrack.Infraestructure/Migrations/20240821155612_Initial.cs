@@ -26,15 +26,15 @@ namespace OutfitTrack.Infraestructure.Migrations
                     sobrenome = table.Column<string>(type: "VARCHAR(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     data_nascimento = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    cpf = table.Column<string>(type: "VARCHAR(11)", nullable: false)
+                    cpf = table.Column<string>(type: "VARCHAR(11)", fixedLength: true, maxLength: 11, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     endereco = table.Column<string>(type: "VARCHAR(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    complemento = table.Column<string>(type: "VARCHAR(100)", nullable: false)
+                    complemento = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     bairro = table.Column<string>(type: "VARCHAR(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    numero = table.Column<string>(type: "VARCHAR(10)", nullable: false)
+                    numero = table.Column<string>(type: "VARCHAR(10)", fixedLength: true, maxLength: 10, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     nome_cidade = table.Column<string>(type: "VARCHAR(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -42,11 +42,11 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PostalCode = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    rg = table.Column<string>(type: "VARCHAR(9)", nullable: true)
+                    rg = table.Column<string>(type: "VARCHAR(9)", maxLength: 9, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    numero_celular = table.Column<string>(type: "VARCHAR(13)", nullable: false)
+                    numero_celular = table.Column<string>(type: "VARCHAR(13)", fixedLength: true, maxLength: 13, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    email = table.Column<string>(type: "VARCHAR(256)", nullable: true)
+                    email = table.Column<string>(type: "VARCHAR(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     data_alteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)

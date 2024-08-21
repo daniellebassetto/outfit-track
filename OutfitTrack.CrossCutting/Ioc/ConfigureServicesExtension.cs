@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using OutfitTrack.Domain.ApiManagement;
@@ -11,7 +15,7 @@ using OutfitTrack.Infraestructure;
 using OutfitTrack.Infraestructure.Repositories;
 using System.Threading.RateLimiting;
 
-namespace OutfitTrack.Api;
+namespace OutfitTrack.CrossCutting.Ioc;
 
 public static class ConfigureServicesExtension
 {
@@ -54,20 +58,21 @@ public static class ConfigureServicesExtension
 
     private static void AddTransient()
     {
-        ServiceCollection.AddTransient<ICustomerService, CustomerService>();
-        ServiceCollection.AddTransient<ICustomerRepository, CustomerRepository>();
-        ServiceCollection.AddTransient<IProductService, ProductService>();
-        ServiceCollection.AddTransient<IProductRepository, ProductRepository>();
-        ServiceCollection.AddTransient<IOrderService, OrderService>();
-        ServiceCollection.AddTransient<IOrderRepository, OrderRepository>();
-        ServiceCollection.AddTransient<IOrderItemRepository, OrderItemRepository>();
+        ServiceCollection.AddScoped<ICustomerService, CustomerService>();
+        ServiceCollection.AddScoped<ICustomerRepository, CustomerRepository>();
+        ServiceCollection.AddScoped<IProductService, ProductService>();
+        ServiceCollection.AddScoped<IProductRepository, ProductRepository>();
+        ServiceCollection.AddScoped<IOrderService, OrderService>();
+        ServiceCollection.AddScoped<IOrderRepository, OrderRepository>();
+        ServiceCollection.AddScoped<IOrderItemRepository, OrderItemRepository>();
+        ServiceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        ServiceCollection.AddTransient<IApiDataService, ApiDataService>();
+        ServiceCollection.AddScoped<IApiDataService, ApiDataService>();
     }
 
     private static void AddScoped()
     {
-        ServiceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
+
     }
 
     private static void AddSingleton()
@@ -88,11 +93,16 @@ public static class ConfigureServicesExtension
 
         ServiceCollection.AddSwaggerGen(x =>
         {
-            x.SwaggerDoc("pt-br", new OpenApiInfo { Title = "OutfitTrack", Version = "pt-br", Contact = contact });
+            x.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "OutfitTrack",
+                Description = "Controle de condicionais (popularmente conhecido como 'malinha') de roupas e calçados.",
+                Version = "v1",
+                Contact = contact
+            });
         });
 
         ServiceCollection.AddSwaggerGenNewtonsoftSupport();
-        ServiceCollection.AddEndpointsApiExplorer();
     }
 
     private static void AddMySql()

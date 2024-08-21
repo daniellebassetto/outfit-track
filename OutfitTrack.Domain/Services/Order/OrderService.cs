@@ -20,29 +20,15 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
             Product? product = _productRepository!.Get(x => x.Id == item.ProductId) ?? throw new KeyNotFoundException("Não foi encontrado nenhum produto correspondente a este Id.");
         }
 
-        Order order = new()
-        {
-            CustomerId = inputCreate.CustomerId,
-            Number = _repository!.GetNextNumber(),
-            Status = EnumStatusOrder.Pending,
-            ListOrderItem = []
-        };
+        Order order = new(inputCreate.CustomerId, EnumStatusOrder.Pending, null, _repository?.GetNextNumber(), null, null) { };
 
-        _repository.Create(order);
+        _repository!.Create(order);
         _unitOfWork!.Commit();
 
         int count = 1;
-        List<OrderItem> items = inputCreate.ListOrderItem!.Select(i => new OrderItem()
-        {
-            OrderId = order.Id,
-            ProductId = i.ProductId,
-            Color = i.Color,
-            Size = i.Size,
-            Status = EnumStatusOrderItem.InProgress,
-            Item = count++
-        }).ToList();
+        List<OrderItem> items = inputCreate.ListOrderItem!.Select(i => new OrderItem(count++, order.Id, i.ProductId, i.Color, i.Size, EnumStatusOrderItem.InProgress, null, null)).ToList();
 
-        order.ListOrderItem = items;
+        order.SetProperty(nameof(Order.ListOrderItem), items);
 
         foreach (var orderItem in items)
         {

@@ -4,13 +4,13 @@ namespace OutfitTrack.Domain.Entities;
 
 public class Order : BaseEntity<Order>
 {
-    public long? CustomerId { get; set; }
-    public EnumStatusOrder? Status { get; set; }
-    public DateTime? ClosingDate { get; set; }
-    public long? Number { get; set; }
-    public virtual List<OrderItem>? ListOrderItem { get; set; }
+    public long? CustomerId { get; private set; }
+    public EnumStatusOrder? Status { get; private set; }
+    public DateTime? ClosingDate { get; private set; }
+    public long? Number { get; private set; }
+    public virtual List<OrderItem>? ListOrderItem { get; private set; }
 
-    public virtual Customer? Customer { get; set; }
+    public virtual Customer? Customer { get; private set; }
 
     public Order() { }
 

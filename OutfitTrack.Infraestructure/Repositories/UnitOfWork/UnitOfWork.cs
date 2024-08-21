@@ -20,10 +20,10 @@ public class UnitOfWork(OutfitTrackContext context) : IUnitOfWork
 
         var implementationType = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(a => a.GetTypes())
-            .Where(t => t.IsClass && !t.IsAbstract && type.IsAssignableFrom(t)).FirstOrDefault() 
+            .Where(t => t.IsClass && !t.IsAbstract && type.IsAssignableFrom(t)).FirstOrDefault()
             ?? throw new InvalidOperationException($"No concrete implementation found for {type}");
 
-        var repository = Activator.CreateInstance(implementationType, _context) 
+        var repository = Activator.CreateInstance(implementationType, _context)
             ?? throw new InvalidOperationException($"Cannot create an instance of {implementationType}");
 
         _repositories.Add(type, repository);
@@ -31,9 +31,9 @@ public class UnitOfWork(OutfitTrackContext context) : IUnitOfWork
         return (TIBaseRepository)repository;
     }
 
-    public async Task Commit()
+    public void Commit()
     {
-        await _context.SaveChangesAsync();
+        _context.SaveChanges();
     }
 
     public void Dispose()

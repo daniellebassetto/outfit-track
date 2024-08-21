@@ -2,14 +2,14 @@
 
 public class Product : BaseEntity<Product>
 {
-    public string? Code { get; set; }
-    public string? Description { get; set; }
-    public decimal? Price { get; set; }
-    public string? Brand { get; set; }
-    public int? Quantity { get; set; }
-    public string? Category { get; set; }
+    public string? Code { get; private set; }
+    public string? Description { get; private set; }
+    public decimal? Price { get; private set; }
+    public string? Brand { get; private set; }
+    public int? Quantity { get; private set; }
+    public string? Category { get; private set; }
 
-    public virtual List<OrderItem>? ListOrderItem { get; set; }
+    public virtual List<OrderItem>? ListOrderItem { get; private set; }
 
     public Product() { }
 

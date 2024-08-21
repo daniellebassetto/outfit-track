@@ -2,22 +2,22 @@
 
 public class Customer : BaseEntity<Customer>
 {
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public DateTime? BirthDate { get; set; }
-    public string? Cpf { get; set; }
-    public string? Street { get; set; }
-    public string? Complement { get; set; }
-    public string? Neighborhood { get; set; }
-    public string? Number { get; set; }
-    public string? CityName { get; set; }
-    public string? StateAbbreviation { get; set; }
-    public string? PostalCode { get; set; }
-    public string? Rg { get; set; }
-    public string? MobilePhoneNumber { get; set; }
-    public string? Email { get; set; }
+    public string? FirstName { get; private set; }
+    public string? LastName { get; private set; }
+    public DateTime? BirthDate { get; private set; }
+    public string? Cpf { get; private set; }
+    public string? Street { get; private set; }
+    public string? Complement { get; private set; }
+    public string? Neighborhood { get; private set; }
+    public string? Number { get; private set; }
+    public string? CityName { get; private set; }
+    public string? StateAbbreviation { get; private set; }
+    public string? PostalCode { get; private set; }
+    public string? Rg { get; private set; }
+    public string? MobilePhoneNumber { get; private set; }
+    public string? Email { get; private set; }
 
-    public virtual List<Order>? ListOrder { get; set; }
+    public virtual List<Order>? ListOrder { get; private set; }
 
     public Customer() { }
 

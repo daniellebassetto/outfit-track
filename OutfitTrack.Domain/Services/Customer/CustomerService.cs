@@ -11,7 +11,7 @@ public class CustomerService(IUnitOfWork unitOfWork) : BaseService<ICustomerRepo
     {
         Customer? originalCustomer = _repository!.GetByIdentifier(new InputIdentifierCustomer(inputCreate.Cpf));
 
-        if (originalCustomer is not null) 
+        if (originalCustomer is not null)
             throw new InvalidOperationException($"Cpf '{inputCreate.Cpf}' já cadastrado na base de dados.");
 
         Customer customer = FromInputCreateToEntity(inputCreate);
@@ -36,11 +36,11 @@ public class CustomerService(IUnitOfWork unitOfWork) : BaseService<ICustomerRepo
     {
         Customer? originalCustomer = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException($"Não foi encontrado nenhum cliente correspondente a este Id.");
 
-        if(originalCustomer.ListOrder?.Count == 0 || originalCustomer.ListOrder is null)
+        if (originalCustomer.ListOrder?.Count > 0)
             throw new InvalidOperationException($"Esse cliente possui vínculo com pedidos");
 
         _repository.Delete(originalCustomer);
-        _unitOfWork!.Commit();        
+        _unitOfWork!.Commit();
 
         return true;
     }

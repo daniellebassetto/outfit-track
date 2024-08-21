@@ -6,6 +6,7 @@ using OutfitTrack.Domain.Interfaces.Service;
 namespace OutfitTrack.Api.Controllers;
 
 [ApiController]
+[Produces("application/json")]
 public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInputIdentifier> : Controller
     where TIService : IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
     where TInputCreate : class
@@ -30,6 +31,8 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
 
     #region Read
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<BaseResponseApi<IEnumerable<TOutput>>>> GetAll()
     {
         try
@@ -43,11 +46,18 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     }
 
     [HttpGet("{id:long}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Get(long id)
     {
         try
         {
-            return await ResponseAsync(_service!.Get(id));
+            var result = _service!.Get(id);
+            if (result == null)
+                return NotFound(new BaseResponseApi<string> { ErrorMessage = "Item não encontrado." });
+
+            return await ResponseAsync(result);
         }
         catch (Exception ex)
         {
@@ -56,11 +66,18 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     }
 
     [HttpPost("GetByIdentifier")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> GetByIdentifier(TInputIdentifier inputIdentifier)
     {
         try
         {
-            return await ResponseAsync(_service!.GetByIdentifier(inputIdentifier));
+            var result = _service!.GetByIdentifier(inputIdentifier);
+            if (result == null)
+                return NotFound(new BaseResponseApi<string> { ErrorMessage = "Item não encontrado." });
+
+            return await ResponseAsync(result);
         }
         catch (Exception ex)
         {
@@ -71,6 +88,8 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
 
     #region Create
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Create(TInputCreate inputCreate)
     {
         try
@@ -86,51 +105,72 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
 
     #region Update
     [HttpPut("{id:long}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Update(long id, TInputUpdate inputUpdate)
     {
         try
         {
-            return await ResponseAsync(_service!.Update(id, inputUpdate));
+            var result = _service!.Update(id, inputUpdate);
+            if (result == null)
+                return NotFound(new BaseResponseApi<string> { ErrorMessage = "Item não encontrado para atualização." });
+
+            return await ResponseAsync(result);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound(new BaseResponseApi<string> { ErrorMessage = "Id inválido ou inexistente." });
         }
         catch (Exception ex)
         {
             return await ResponseExceptionAsync(ex);
         }
     }
+
     #endregion
 
     #region Delete
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<BaseResponseApi<bool>>> Delete(long id)
     {
         try
         {
-            return await ResponseAsync(_service?.Delete(id));
+            var result = _service!.Delete(id);
+            return await ResponseAsync(result);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound(new BaseResponseApi<string> { ErrorMessage = "Item não encontrado para exclusão." });
         }
         catch (Exception ex)
         {
             return await ResponseExceptionAsync(ex);
         }
     }
+
     #endregion
 
     [NonAction]
-    public async Task<ActionResult> ResponseAsync<ResponseType>(ResponseType result, int statusCode = 0)
+    public async Task<ActionResult> ResponseAsync<ResponseType>(ResponseType result, int? statusCode = null)
     {
         try
         {
-            return await Task.FromResult(StatusCode(statusCode == 0 ? 200 : statusCode, new BaseResponseApi<ResponseType> { Result = result }));
+            return await Task.FromResult(StatusCode(statusCode ?? 200, new BaseResponseApi<ResponseType> { Result = result }));
         }
         catch (Exception ex)
         {
-            return await Task.FromResult(BadRequest(new BaseResponseApi<string> { ErrorMessage = $"Houve um problema interno com o servidor. Entre em contato com o Administrador do sistema caso o problema persista. Erro interno: {ex.Message}" }));
+            return await Task.FromResult(BadRequest(new BaseResponseApi<string> { ErrorMessage = $"Houve um problema interno com o servidor. Entre em contato com o Administrador do sistema caso o problema persista. Erro interno: {ex.InnerException?.Message ?? ex.Message}" }));
         }
     }
 
     [NonAction]
     public async Task<ActionResult> ResponseExceptionAsync(Exception ex)
     {
-        return await Task.FromResult(BadRequest(new BaseResponseApi<string> { ErrorMessage = ex.Message }));
+        return await Task.FromResult(BadRequest(new BaseResponseApi<string> { ErrorMessage = ex.InnerException?.Message ?? ex.Message }));
     }
 
     [NonAction]

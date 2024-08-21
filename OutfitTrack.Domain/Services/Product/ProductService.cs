@@ -5,7 +5,7 @@ using OutfitTrack.Domain.Interfaces.Service;
 
 namespace OutfitTrack.Domain.Services;
 
-public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductRepository, InputCreateProduct, InputUpdateProduct, Product, OutputProduct, InputIdentifierProduct>(unitOfWork), IProductService 
+public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductRepository, InputCreateProduct, InputUpdateProduct, Product, OutputProduct, InputIdentifierProduct>(unitOfWork), IProductService
 {
     public override OutputProduct? Create(InputCreateProduct inputCreate)
     {
@@ -36,7 +36,7 @@ public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductReposi
     {
         Product? originalProduct = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException($"Não foi encontrado nenhum produto correspondente a este Id.");
 
-        if (originalProduct.ListOrderItem?.Count == 0 || originalProduct.ListOrderItem is null)
+        if (originalProduct.ListOrderItem?.Count > 0)
             throw new InvalidOperationException($"Esse produto possui vínculo com itens de pedido");
 
         _repository.Delete(originalProduct);

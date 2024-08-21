@@ -51,7 +51,7 @@ public class OrderItemMap : IEntityTypeConfiguration<OrderItem>
         builder.Property(x => x.Size).HasColumnName("tamanho");
         builder.Property(x => x.Size).HasColumnType("VARCHAR(10)");
         builder.Property(x => x.Size).ValueGeneratedNever();
-        
+
         builder.Property(x => x.Status).HasColumnName("status");
         builder.Property(x => x.Status).IsRequired();
         builder.Property(x => x.Status).HasColumnType("INT");
