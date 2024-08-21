@@ -101,7 +101,7 @@ public static class ConfigureServicesExtension
                 Version = "v1",
                 Contact = contact
             });
-        });
+        });        
     }
 
     private static void AddMySql()
