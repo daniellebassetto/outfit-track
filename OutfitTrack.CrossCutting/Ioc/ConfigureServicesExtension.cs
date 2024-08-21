@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using OutfitTrack.Domain.ApiManagement;
-using OutfitTrack.Domain.Interfaces.Repository;
-using OutfitTrack.Domain.Interfaces.Service;
-using OutfitTrack.Domain.Mapping;
-using OutfitTrack.Domain.Services;
+using OutfitTrack.Application.ApiManagement;
+using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Application.Mapping;
+using OutfitTrack.Application.Services;
+using OutfitTrack.Domain.Interfaces;
 using OutfitTrack.Infraestructure;
 using OutfitTrack.Infraestructure.Repositories;
 using System.Threading.RateLimiting;
@@ -59,10 +59,11 @@ public static class ConfigureServicesExtension
     private static void AddTransient()
     {
         ServiceCollection.AddScoped<ICustomerService, CustomerService>();
-        ServiceCollection.AddScoped<ICustomerRepository, CustomerRepository>();
         ServiceCollection.AddScoped<IProductService, ProductService>();
-        ServiceCollection.AddScoped<IProductRepository, ProductRepository>();
         ServiceCollection.AddScoped<IOrderService, OrderService>();
+
+        ServiceCollection.AddScoped<ICustomerRepository, CustomerRepository>();
+        ServiceCollection.AddScoped<IProductRepository, ProductRepository>();
         ServiceCollection.AddScoped<IOrderRepository, OrderRepository>();
         ServiceCollection.AddScoped<IOrderItemRepository, OrderItemRepository>();
         ServiceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -101,8 +102,6 @@ public static class ConfigureServicesExtension
                 Contact = contact
             });
         });
-
-        ServiceCollection.AddSwaggerGenNewtonsoftSupport();
     }
 
     private static void AddMySql()
@@ -138,6 +137,6 @@ public static class ConfigureServicesExtension
 
     private static void SetApiData()
     {
-        ApiData.SetMapper(new Domain.Mapping.Mapper(new MapperConfiguration(config => { config.AddProfile(new MapperEntityOutput()); }).CreateMapper(), new MapperConfiguration(config => { config.AddProfile(new MapperInputEntity()); }).CreateMapper()));
+        ApiData.SetMapper(new Application.Mapping.Mapper(new MapperConfiguration(config => { config.AddProfile(new MapperEntityOutput()); }).CreateMapper(), new MapperConfiguration(config => { config.AddProfile(new MapperInputEntity()); }).CreateMapper()));
     }
 }

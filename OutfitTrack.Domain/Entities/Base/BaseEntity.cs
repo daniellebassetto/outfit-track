@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using OutfitTrack.Domain.ApiManagement;
 using System.ComponentModel.DataAnnotations;
 
 namespace OutfitTrack.Domain.Entities;

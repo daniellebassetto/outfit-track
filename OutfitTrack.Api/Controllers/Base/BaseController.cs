@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OutfitTrack.Domain.ApiManagement;
-using OutfitTrack.Domain.Interfaces.Service;
+using OutfitTrack.Application.ApiManagement;
+using OutfitTrack.Application.Interfaces;
 
 namespace OutfitTrack.Api.Controllers;
 

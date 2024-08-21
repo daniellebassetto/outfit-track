@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OutfitTrack.Domain.Entities;
-using OutfitTrack.Domain.Interfaces.Repository;
+using OutfitTrack.Domain.Interfaces;
 using System.Linq.Expressions;
 using System.Reflection;
 

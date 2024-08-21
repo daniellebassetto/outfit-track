@@ -1,6 +1,6 @@
 ﻿using OutfitTrack.Arguments;
 using OutfitTrack.Domain.Entities;
-using OutfitTrack.Domain.Interfaces.Repository;
+using OutfitTrack.Domain.Interfaces;
 
 namespace OutfitTrack.Infraestructure.Repositories;
 

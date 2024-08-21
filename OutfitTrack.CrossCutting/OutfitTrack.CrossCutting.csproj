@@ -11,6 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\OutfitTrack.Application\OutfitTrack.Application.csproj" />
 		<ProjectReference Include="..\OutfitTrack.Domain\OutfitTrack.Domain.csproj" />
 		<ProjectReference Include="..\OutfitTrack.Infraestructure\OutfitTrack.Infraestructure.csproj" />
 	</ItemGroup>
