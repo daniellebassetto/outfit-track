@@ -34,6 +34,11 @@ public class OrderMap : IEntityTypeConfiguration<Order>
         builder.Property(x => x.Number).HasColumnType("BIGINT");
         builder.Property(x => x.Number).ValueGeneratedNever();
 
+        builder.Property(x => x.Observation).HasColumnName("observacao");
+        builder.Property(x => x.Observation).IsRequired();
+        builder.Property(x => x.Observation).HasColumnType("VARCHAR(150)");
+        builder.Property(x => x.Observation).ValueGeneratedNever();
+
         builder.Property(x => x.CustomerId).HasColumnName("id_cliente");
         builder.Property(x => x.CustomerId).IsRequired();
         builder.Property(x => x.CustomerId).HasColumnType("BIGINT");

@@ -152,6 +152,11 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("BIGINT")
                         .HasColumnName("numero");
 
+                    b.Property<string>("Observation")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(150)")
+                        .HasColumnName("observacao");
+
                     b.Property<int>("Status")
                         .HasColumnType("INT")
                         .HasColumnName("status");
@@ -176,19 +181,13 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_alteracao");
 
-                    b.Property<string>("Color")
-                        .HasColumnType("VARCHAR(30)")
-                        .HasColumnName("cor");
-
                     b.Property<DateTime?>("CreationDate")
                         .IsRequired()
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_cadastro");
 
                     b.Property<int?>("Item")
-                        .IsRequired()
-                        .HasColumnType("INT")
-                        .HasColumnName("item");
+                        .HasColumnType("int");
 
                     b.Property<long?>("OrderId")
                         .IsRequired()
@@ -200,13 +199,19 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("BIGINT")
                         .HasColumnName("id_produto");
 
-                    b.Property<string>("Size")
-                        .HasColumnType("VARCHAR(10)")
-                        .HasColumnName("tamanho");
+                    b.Property<int?>("Quantity")
+                        .IsRequired()
+                        .HasColumnType("INT")
+                        .HasColumnName("quantidade");
 
                     b.Property<int>("Status")
                         .HasColumnType("INT")
                         .HasColumnName("status");
+
+                    b.Property<string>("Variation")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("variação");
 
                     b.HasKey("Id");
 

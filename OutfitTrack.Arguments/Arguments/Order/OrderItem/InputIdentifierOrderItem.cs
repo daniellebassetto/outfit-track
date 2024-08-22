@@ -4,13 +4,13 @@ namespace OutfitTrack.Arguments;
 
 public class InputIdentifierOrderItem
 {
-    public int? Item { get; private set; }
+    public long? ProductId { get; private set; }
 
     public InputIdentifierOrderItem() { }
 
     [JsonConstructor]
-    public InputIdentifierOrderItem(int? item)
+    public InputIdentifierOrderItem(long? productId)
     {
-        Item = item;
+        ProductId = productId;
     }
 }

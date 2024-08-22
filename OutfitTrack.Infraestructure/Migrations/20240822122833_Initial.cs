@@ -70,7 +70,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                     preco = table.Column<decimal>(type: "DECIMAL(10,2)", nullable: false),
                     marca = table.Column<string>(type: "VARCHAR(50)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantidade = table.Column<int>(type: "INT", nullable: false),
                     categoria = table.Column<string>(type: "VARCHAR(100)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),
@@ -92,6 +91,8 @@ namespace OutfitTrack.Infraestructure.Migrations
                     status = table.Column<int>(type: "INT", nullable: false),
                     data_encerramento = table.Column<DateTime>(type: "DATETIME", nullable: true),
                     numero = table.Column<long>(type: "BIGINT", nullable: false),
+                    observacao = table.Column<string>(type: "VARCHAR(150)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     data_alteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)
                 },
@@ -113,13 +114,12 @@ namespace OutfitTrack.Infraestructure.Migrations
                 {
                     id = table.Column<long>(type: "BIGINT", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    item = table.Column<int>(type: "INT", nullable: false),
+                    Item = table.Column<int>(type: "int", nullable: true),
                     id_pedido = table.Column<long>(type: "BIGINT", nullable: false),
                     id_produto = table.Column<long>(type: "BIGINT", nullable: false),
-                    cor = table.Column<string>(type: "VARCHAR(30)", nullable: true)
+                    variação = table.Column<string>(type: "VARCHAR(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    tamanho = table.Column<string>(type: "VARCHAR(10)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    quantidade = table.Column<int>(type: "INT", nullable: false),
                     status = table.Column<int>(type: "INT", nullable: false),
                     data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     data_alteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)

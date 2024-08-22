@@ -27,6 +27,13 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
         return query.FirstOrDefault();
     }
 
+    public IEnumerable<TEntity>? GetList(Expression<Func<TEntity, bool>> predicate)
+    {
+        IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking().Where(predicate);
+        query = BaseRepository<TEntity, TInputIdentifier>.IncludeVirtualProperties(query);
+        return query;
+    }
+
     public TEntity? GetByIdentifier(TInputIdentifier inputIdentifier)
     {
         IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
@@ -53,7 +60,6 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
 
         return query.FirstOrDefault();
     }
-
     #endregion
 
     #region Create

@@ -7,6 +7,7 @@ namespace OutfitTrack.Api.Controllers;
 
 [ApiController]
 [Produces("application/json")]
+[Consumes("application/json")]
 public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInputIdentifier> : Controller
     where TIService : IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
     where TInputCreate : class

@@ -1,16 +1,23 @@
 ﻿using Newtonsoft.Json;
+using OutfitTrack.Arguments.Arguments;
 
 namespace OutfitTrack.Arguments;
 
 public class InputUpdateOrder
 {
-    public List<InputUpdateOrderItem>? ListOrderItem { get; private set; }
+    public string? Observation { get; private set; }
+    public List<InputCreateOrderItem>? ListCreatedItem { get; private set; }
+    public List<InputIdentityUpdateOrderItem>? ListUpdatedItem { get; private set; }
+    public List<long>? ListDeletedItem { get; private set; }
 
     public InputUpdateOrder() { }
 
     [JsonConstructor]
-    public InputUpdateOrder(List<InputUpdateOrderItem> listOrderItem)
+    public InputUpdateOrder(string? observation, List<InputCreateOrderItem>? listCreatedItem, List<InputIdentityUpdateOrderItem>? listUpdatedItem, List<long>? listDeletedItem)
     {
-        ListOrderItem = listOrderItem;
+        Observation = observation;
+        ListCreatedItem = listCreatedItem;
+        ListUpdatedItem = listUpdatedItem;
+        ListDeletedItem = listDeletedItem;
     }
 }

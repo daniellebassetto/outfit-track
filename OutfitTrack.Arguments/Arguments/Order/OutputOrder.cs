@@ -9,7 +9,8 @@ public class OutputOrder
     public long? CustomerId { get; set; }
     public EnumStatusOrder? Status { get; set; }
     public DateTime? ClosingDate { get; set; }
-    public List<OutputOrderItem>? ListOrderItem { get; set; }
+    public string? Observation { get; set; }
 
+    public List<OutputOrderItem>? ListOrderItem { get; set; }
     public OutputCustomer? Customer { get; set; }
 }
