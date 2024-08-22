@@ -30,7 +30,6 @@ public static class ConfigureServicesExtension
         AddControlers();
         AddOptions();
         AddTransient();
-        AddScoped();
         AddSingleton();
         AddSwaggerGen();
         AddMySql();
@@ -58,22 +57,17 @@ public static class ConfigureServicesExtension
 
     private static void AddTransient()
     {
-        ServiceCollection.AddScoped<ICustomerService, CustomerService>();
-        ServiceCollection.AddScoped<IProductService, ProductService>();
-        ServiceCollection.AddScoped<IOrderService, OrderService>();
+        ServiceCollection.AddTransient<ICustomerService, CustomerService>();
+        ServiceCollection.AddTransient<IProductService, ProductService>();
+        ServiceCollection.AddTransient<IOrderService, OrderService>();
 
-        ServiceCollection.AddScoped<ICustomerRepository, CustomerRepository>();
-        ServiceCollection.AddScoped<IProductRepository, ProductRepository>();
-        ServiceCollection.AddScoped<IOrderRepository, OrderRepository>();
-        ServiceCollection.AddScoped<IOrderItemRepository, OrderItemRepository>();
-        ServiceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
+        ServiceCollection.AddTransient<ICustomerRepository, CustomerRepository>();
+        ServiceCollection.AddTransient<IProductRepository, ProductRepository>();
+        ServiceCollection.AddTransient<IOrderRepository, OrderRepository>();
+        ServiceCollection.AddTransient<IOrderItemRepository, OrderItemRepository>();
+        ServiceCollection.AddTransient<IUnitOfWork, UnitOfWork>();
 
-        ServiceCollection.AddScoped<IApiDataService, ApiDataService>();
-    }
-
-    private static void AddScoped()
-    {
-
+        ServiceCollection.AddTransient<IApiDataService, ApiDataService>();
     }
 
     private static void AddSingleton()
@@ -101,7 +95,9 @@ public static class ConfigureServicesExtension
                 Version = "v1",
                 Contact = contact
             });
-        });        
+        });
+
+        ServiceCollection.AddSwaggerGenNewtonsoftSupport();
     }
 
     private static void AddMySql()

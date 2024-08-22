@@ -4,12 +4,12 @@ namespace OutfitTrack.Arguments;
 
 public class InputUpdateOrder
 {
-    public List<InputCreateOrderItem>? ListOrderItem { get; private set; }
+    public List<InputUpdateOrderItem>? ListOrderItem { get; private set; }
 
     public InputUpdateOrder() { }
 
     [JsonConstructor]
-    public InputUpdateOrder(List<InputCreateOrderItem> listOrderItem)
+    public InputUpdateOrder(List<InputUpdateOrderItem> listOrderItem)
     {
         ListOrderItem = listOrderItem;
     }

@@ -1,5 +1,4 @@
 using OutfitTrack.CrossCutting.Ioc;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 

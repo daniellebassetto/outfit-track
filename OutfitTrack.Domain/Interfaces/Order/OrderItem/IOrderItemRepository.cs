@@ -3,4 +3,7 @@ using OutfitTrack.Domain.Entities;
 
 namespace OutfitTrack.Domain.Interfaces;
 
-public interface IOrderItemRepository : IBaseRepository<OrderItem, InputIdentifierOrderItem> { }
+public interface IOrderItemRepository : IBaseRepository<OrderItem, InputIdentifierOrderItem> 
+{
+    IEnumerable<OrderItem> GetListByOrderId(long orderId);
+}

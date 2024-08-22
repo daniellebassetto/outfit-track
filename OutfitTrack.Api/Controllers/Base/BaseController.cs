@@ -49,7 +49,7 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Get(long id)
+    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Get([FromRoute] long id)
     {
         try
         {
@@ -69,7 +69,7 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> GetByIdentifier(TInputIdentifier inputIdentifier)
+    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> GetByIdentifier([FromBody] TInputIdentifier inputIdentifier)
     {
         try
         {
@@ -90,7 +90,7 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Create(TInputCreate inputCreate)
+    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Create([FromBody] TInputCreate inputCreate)
     {
         try
         {
@@ -108,7 +108,7 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Update(long id, TInputUpdate inputUpdate)
+    public virtual async Task<ActionResult<BaseResponseApi<TOutput>>> Update([FromRoute] long id, [FromBody] TInputUpdate inputUpdate)
     {
         try
         {
@@ -127,7 +127,6 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
             return await ResponseExceptionAsync(ex);
         }
     }
-
     #endregion
 
     #region Delete
@@ -135,7 +134,7 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<BaseResponseApi<bool>>> Delete(long id)
+    public virtual async Task<ActionResult<BaseResponseApi<bool>>> Delete([FromRoute] long id)
     {
         try
         {

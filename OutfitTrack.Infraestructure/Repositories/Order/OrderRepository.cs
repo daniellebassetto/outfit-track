@@ -9,6 +9,7 @@ public class OrderRepository(OutfitTrackContext context) : BaseRepository<Order,
 {
     public long GetNextNumber()
     {
-        return (_context.Set<Order>().AsNoTracking().OrderBy(x => x.Number).Last().Number ?? 0) + 1;
+        var listOrder = _context.Set<Order>().AsNoTracking().OrderBy(x => x.Number).ToList();
+        return listOrder.Count > 0 ? (listOrder.Last().Number!.Value + 1) : 1;
     }
 }
