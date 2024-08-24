@@ -11,10 +11,10 @@ public class InputCreateOrder
     public InputCreateOrder() { }
 
     [JsonConstructor]
-    public InputCreateOrder(long customerId, string? observation, List<InputCreateOrderItem> istCreatedItem)
+    public InputCreateOrder(long customerId, string? observation, List<InputCreateOrderItem> listCreatedItem)
     {
         CustomerId = customerId;
         Observation = observation;
-        ListCreatedItem = istCreatedItem;
+        ListCreatedItem = listCreatedItem;
     }
 }
