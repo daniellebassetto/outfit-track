@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OutfitTrack.Arguments;
+﻿using OutfitTrack.Arguments;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces;
 

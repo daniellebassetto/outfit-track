@@ -131,7 +131,7 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     #endregion
 
     #region Delete
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]

@@ -44,10 +44,10 @@ public class OrderItemMap : IEntityTypeConfiguration<OrderItem>
         builder.Property(x => x.Variation).HasColumnType("VARCHAR(50)");
         builder.Property(x => x.Variation).ValueGeneratedNever();
 
-        builder.Property(x => x.Quantity).HasColumnName("quantidade");
-        builder.Property(x => x.Quantity).IsRequired();
-        builder.Property(x => x.Quantity).HasColumnType("INT");
-        builder.Property(x => x.Quantity).ValueGeneratedNever();
+        builder.Property(x => x.Item).HasColumnName("quantidade");
+        builder.Property(x => x.Item).IsRequired();
+        builder.Property(x => x.Item).HasColumnType("INT");
+        builder.Property(x => x.Item).ValueGeneratedNever();
 
         builder.Property(x => x.Status).HasColumnName("status");
         builder.Property(x => x.Status).IsRequired();

@@ -114,12 +114,11 @@ namespace OutfitTrack.Infraestructure.Migrations
                 {
                     id = table.Column<long>(type: "BIGINT", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Item = table.Column<int>(type: "int", nullable: true),
+                    quantidade = table.Column<int>(type: "INT", nullable: false),
                     id_pedido = table.Column<long>(type: "BIGINT", nullable: false),
                     id_produto = table.Column<long>(type: "BIGINT", nullable: false),
                     variação = table.Column<string>(type: "VARCHAR(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantidade = table.Column<int>(type: "INT", nullable: false),
                     status = table.Column<int>(type: "INT", nullable: false),
                     data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     data_alteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)
