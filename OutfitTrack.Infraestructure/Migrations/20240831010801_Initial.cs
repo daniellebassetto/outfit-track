@@ -38,8 +38,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     nome_cidade = table.Column<string>(type: "VARCHAR(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    sigla_estado = table.Column<string>(type: "VARCHAR(2)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    sigla_estado = table.Column<int>(type: "INT", nullable: false),
                     PostalCode = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     rg = table.Column<string>(type: "VARCHAR(9)", maxLength: 9, nullable: true)

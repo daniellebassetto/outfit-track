@@ -8,7 +8,7 @@ namespace OutfitTrack.Api.Controllers;
 [Route("api/[controller]")]
 public class OrderController(IApiDataService apiDataService, IOrderService service) : BaseController<IOrderService, InputCreateOrder, InputUpdateOrder, OutputOrder, InputIdentifierOrder>(apiDataService, service) 
 {
-    [HttpDelete("{id:long}")]
+    [HttpPut("Close/{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]

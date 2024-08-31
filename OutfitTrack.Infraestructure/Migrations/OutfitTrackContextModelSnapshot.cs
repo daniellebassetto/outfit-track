@@ -105,9 +105,8 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("VARCHAR(9)")
                         .HasColumnName("rg");
 
-                    b.Property<string>("StateAbbreviation")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(2)")
+                    b.Property<int>("StateAbbreviation")
+                        .HasColumnType("INT")
                         .HasColumnName("sigla_estado");
 
                     b.Property<string>("Street")

@@ -12,7 +12,7 @@ using OutfitTrack.Infraestructure;
 namespace OutfitTrack.Infraestructure.Migrations
 {
     [DbContext(typeof(OutfitTrackContext))]
-    [Migration("20240830232635_Initial")]
+    [Migration("20240831010801_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -108,9 +108,8 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("VARCHAR(9)")
                         .HasColumnName("rg");
 
-                    b.Property<string>("StateAbbreviation")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(2)")
+                    b.Property<int>("StateAbbreviation")
+                        .HasColumnType("INT")
                         .HasColumnName("sigla_estado");
 
                     b.Property<string>("Street")

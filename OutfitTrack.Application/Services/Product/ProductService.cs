@@ -14,6 +14,9 @@ public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductReposi
         if (originalProduct is not null)
             throw new InvalidOperationException($"Código '{inputCreate.Code}' já cadastrado na base de dados.");
 
+        if(inputCreate.Price == 0)
+            throw new InvalidOperationException($"Valor do produto inválido.");
+
         Product product = FromInputCreateToEntity(inputCreate);
         var entity = _repository.Create(product);
         _unitOfWork!.Commit();
@@ -24,6 +27,9 @@ public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductReposi
     public override OutputProduct? Update(long id, InputUpdateProduct inputUpdate)
     {
         Product? originalProduct = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException($"Não foi encontrado nenhum produto correspondente a este Id.");
+
+        if (inputUpdate.Price == 0)
+            throw new InvalidOperationException($"Valor do produto inválido.");
 
         Product product = UpdateEntity(originalProduct, inputUpdate) ?? throw new Exception("Problemas para realizar atualização");
         var entity = _repository!.Update(product);

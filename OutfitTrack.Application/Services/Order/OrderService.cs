@@ -41,7 +41,10 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
     public override OutputOrder? Update(long id, InputUpdateOrder inputUpdateOrder)
     {
         // Verifica se o pedido existe
-        Order? order = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Pedido não encontrado.");
+        Order? order = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Condicional não encontrado.");
+
+        if(order.Status == EnumStatusOrder.Closed)
+            throw new InvalidOperationException("Condicional finalizado!.");
 
         // Recupera os itens existentes do pedido
         List<OrderItem> existingItem = _orderItemRepository.GetList(x => x.OrderId == id)?.ToList() ?? [];
