@@ -10,6 +10,7 @@ app.UseSwagger();
 app.UseSwaggerUI(x =>
 {
     x.SwaggerEndpoint("/swagger/v1/swagger.json", "OutfitTrack - v1");
+    x.InjectStylesheet("/swagger-ui/SwaggerDark.css");
 });
 
 app.UseHttpsRedirection();
