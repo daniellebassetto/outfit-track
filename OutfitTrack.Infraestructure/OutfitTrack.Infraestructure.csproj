@@ -20,4 +20,8 @@
 		<ProjectReference Include="..\OutfitTrack.Domain\OutfitTrack.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
+
 </Project>

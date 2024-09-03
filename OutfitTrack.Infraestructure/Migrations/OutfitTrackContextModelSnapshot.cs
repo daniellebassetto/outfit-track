@@ -17,7 +17,7 @@ namespace OutfitTrack.Infraestructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -105,9 +105,8 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("VARCHAR(9)")
                         .HasColumnName("rg");
 
-                    b.Property<string>("StateAbbreviation")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(2)")
+                    b.Property<int>("StateAbbreviation")
+                        .HasColumnType("INT")
                         .HasColumnName("sigla_estado");
 
                     b.Property<string>("Street")
@@ -187,7 +186,9 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnName("data_cadastro");
 
                     b.Property<int?>("Item")
-                        .HasColumnType("int");
+                        .IsRequired()
+                        .HasColumnType("INT")
+                        .HasColumnName("quantidade");
 
                     b.Property<long?>("OrderId")
                         .IsRequired()
@@ -198,11 +199,6 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .IsRequired()
                         .HasColumnType("BIGINT")
                         .HasColumnName("id_produto");
-
-                    b.Property<int?>("Quantity")
-                        .IsRequired()
-                        .HasColumnType("INT")
-                        .HasColumnName("quantidade");
 
                     b.Property<int>("Status")
                         .HasColumnType("INT")

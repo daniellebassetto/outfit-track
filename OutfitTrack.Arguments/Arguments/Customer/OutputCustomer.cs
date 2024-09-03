@@ -14,7 +14,7 @@ public class OutputCustomer
     public string? Neighborhood { get; set; }
     public string? Number { get; set; }
     public string? CityName { get; set; }
-    public string? StateAbbreviation { get; set; }
+    public EnumStateAbbreviationBrazil? StateAbbreviation { get; set; }
     public string? PostalCode { get; set; }
     public string? Rg { get; set; }
     public string? MobilePhoneNumber { get; set; }

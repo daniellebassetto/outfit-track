@@ -75,7 +75,7 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
 
         builder.Property(x => x.StateAbbreviation).HasColumnName("sigla_estado");
         builder.Property(x => x.StateAbbreviation).IsRequired();
-        builder.Property(x => x.StateAbbreviation).HasColumnType("VARCHAR(2)");
+        builder.Property(x => x.StateAbbreviation).HasColumnType("INT");
         builder.Property(x => x.StateAbbreviation).ValueGeneratedNever();
 
         builder.Property(x => x.Rg).HasColumnName("rg");

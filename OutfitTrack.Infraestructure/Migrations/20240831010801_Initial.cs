@@ -38,8 +38,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     nome_cidade = table.Column<string>(type: "VARCHAR(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    sigla_estado = table.Column<string>(type: "VARCHAR(2)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    sigla_estado = table.Column<int>(type: "INT", nullable: false),
                     PostalCode = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     rg = table.Column<string>(type: "VARCHAR(9)", maxLength: 9, nullable: true)
@@ -114,12 +113,11 @@ namespace OutfitTrack.Infraestructure.Migrations
                 {
                     id = table.Column<long>(type: "BIGINT", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Item = table.Column<int>(type: "int", nullable: true),
+                    quantidade = table.Column<int>(type: "INT", nullable: false),
                     id_pedido = table.Column<long>(type: "BIGINT", nullable: false),
                     id_produto = table.Column<long>(type: "BIGINT", nullable: false),
                     variação = table.Column<string>(type: "VARCHAR(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantidade = table.Column<int>(type: "INT", nullable: false),
                     status = table.Column<int>(type: "INT", nullable: false),
                     data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     data_alteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)
