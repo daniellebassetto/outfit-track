@@ -11,7 +11,7 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
     private readonly IProductRepository _productRepository = productRepository;
     private readonly IOrderItemRepository _orderItemRepository = orderItemRepository;
 
-    public override OutputOrder? Create(InputCreateOrder inputCreate)
+    public override OutputOrder Create(InputCreateOrder inputCreate)
     {
         Customer? customer = _customerRepository.Get(x => x.Id == inputCreate.CustomerId) ?? throw new KeyNotFoundException("Não foi encontrado nenhum cliente correspondente a este Id.");
 
@@ -38,7 +38,7 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
         return FromEntityToOutput(order);
     }
 
-    public override OutputOrder? Update(long id, InputUpdateOrder inputUpdateOrder)
+    public override OutputOrder Update(long id, InputUpdateOrder inputUpdateOrder)
     {
         // Verifica se o pedido existe
         Order? order = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Condicional não encontrado.");

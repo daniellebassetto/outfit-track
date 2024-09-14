@@ -7,7 +7,7 @@ namespace OutfitTrack.Application.Services;
 
 public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductRepository, InputCreateProduct, InputUpdateProduct, Product, OutputProduct, InputIdentifierProduct>(unitOfWork), IProductService
 {
-    public override OutputProduct? Create(InputCreateProduct inputCreate)
+    public override OutputProduct Create(InputCreateProduct inputCreate)
     {
         Product? originalProduct = _repository!.GetByIdentifier(new InputIdentifierProduct(inputCreate.Code!));
 
@@ -18,13 +18,13 @@ public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductReposi
             throw new InvalidOperationException($"Valor do produto inválido.");
 
         Product product = FromInputCreateToEntity(inputCreate);
-        var entity = _repository.Create(product);
+        var entity = _repository.Create(product) ?? throw new InvalidOperationException("Falha ao criar a produto.");
         _unitOfWork!.Commit();
 
-        return FromEntityToOutput(entity ?? new Product());
+        return FromEntityToOutput(entity);
     }
 
-    public override OutputProduct? Update(long id, InputUpdateProduct inputUpdate)
+    public override OutputProduct Update(long id, InputUpdateProduct inputUpdate)
     {
         Product? originalProduct = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException($"Não foi encontrado nenhum produto correspondente a este Id.");
 
@@ -32,10 +32,10 @@ public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductReposi
             throw new InvalidOperationException($"Valor do produto inválido.");
 
         Product product = UpdateEntity(originalProduct, inputUpdate) ?? throw new Exception("Problemas para realizar atualização");
-        var entity = _repository!.Update(product);
+        var entity = _repository!.Update(product) ?? throw new InvalidOperationException("Falha ao atualizar o produto.");
         _unitOfWork!.Commit();
 
-        return FromEntityToOutput(entity ?? new Product());
+        return FromEntityToOutput(entity);
     }
 
     public override bool Delete(long id)

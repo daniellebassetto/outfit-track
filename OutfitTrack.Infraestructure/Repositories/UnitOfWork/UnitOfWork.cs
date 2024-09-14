@@ -1,4 +1,5 @@
-﻿using OutfitTrack.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces;
 
 namespace OutfitTrack.Infraestructure.Repositories;

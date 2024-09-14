@@ -26,42 +26,42 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
     #region Read
     public virtual IEnumerable<TOutput>? GetAll()
     {
-        var listEntity = _repository?.GetAll();
-        return listEntity != null ? FromEntityToOutput(listEntity) : default;
+        var listEntity = _repository!.GetAll();
+        return listEntity != null ? FromEntityToOutput(listEntity) : null;
     }
 
     public virtual TOutput? Get(long id)
     {
         var entity = _repository!.Get(x => x.Id == id);
-        return entity != null ? FromEntityToOutput(entity) : default;
+        return entity != null ? FromEntityToOutput(entity) : null;
     }
 
     public virtual TOutput? GetByIdentifier(TInputIdentifier inputIdentifier)
     {
         var entity = _repository!.GetByIdentifier(inputIdentifier);
-        return entity != null ? FromEntityToOutput(entity) : default;
+        return entity != null ? FromEntityToOutput(entity) : null;
     }
     #endregion
 
     #region Create
-    public virtual TOutput? Create(TInputCreate inputCreate)
+    public virtual TOutput Create(TInputCreate inputCreate)
     {
-        var entity = _repository!.Create(FromInputCreateToEntity(inputCreate));
+        TEntity entity = _repository!.Create(FromInputCreateToEntity(inputCreate)) ?? throw new InvalidOperationException("Falha ao criar a entidade.");
         _unitOfWork!.Commit();
-        return entity != null ? FromEntityToOutput(entity) : default;
+        return FromEntityToOutput(entity);
     }
     #endregion
 
     #region Update
-    public virtual TOutput? Update(long id, TInputUpdate inputUpdate)
+    public virtual TOutput Update(long id, TInputUpdate inputUpdate)
     {
         var oldEntity = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Id inválido ou inexistente. Processo: Update");
-        var newEntity = BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, TOutput, TInputIdentifier>.UpdateEntity(oldEntity, inputUpdate);
 
-        var entity = _repository!.Update(newEntity ?? new TEntity());
+        var updatedEntity = UpdateEntity(oldEntity, inputUpdate);
+        var result = _repository!.Update(oldEntity) ?? throw new InvalidOperationException("Falha ao atualizar a entidade.");
         _unitOfWork!.Commit();
 
-        return entity != null ? FromEntityToOutput(entity) : default;
+        return FromEntityToOutput(result);
     }
 
     protected static TEntity? UpdateEntity(TEntity oldEntity, TInputUpdate inputUpdate)
@@ -86,17 +86,18 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
         var entity = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Id inválido ou inexistente. Processo: Delete");
         _repository.Delete(entity);
         _unitOfWork!.Commit();
+
         return true;
     }
     #endregion
 
     #region Mapper
-    public TOutput? FromEntityToOutput(TEntity entity)
+    public TOutput FromEntityToOutput(TEntity entity)
     {
         return ApiData.Mapper!.MapperEntityOutput.Map<TEntity, TOutput>(entity);
     }
 
-    public IEnumerable<TOutput>? FromEntityToOutput(IEnumerable<TEntity> listEntity)
+    public IEnumerable<TOutput> FromEntityToOutput(IEnumerable<TEntity> listEntity)
     {
         return ApiData.Mapper!.MapperEntityOutput.Map<IEnumerable<TEntity>, IEnumerable<TOutput>>(listEntity);
     }

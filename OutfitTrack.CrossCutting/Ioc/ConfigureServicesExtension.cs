@@ -109,7 +109,7 @@ public static class ConfigureServicesExtension
 
     private static void AddCors()
     {
-        ServiceCollection.AddCors(options => options.AddPolicy("wasm", policy => policy.WithOrigins("adicionar rota do front").AllowAnyMethod().SetIsOriginAllowed(pol => true).AllowAnyHeader().AllowCredentials()));
+        ServiceCollection.AddCors(options => options.AddPolicy("wasm", policy => policy.WithOrigins("http://localhost:3000").AllowAnyMethod().SetIsOriginAllowed(pol => true).AllowAnyHeader().AllowCredentials()));
     }
 
     private static void AddRateLimit()
@@ -119,8 +119,7 @@ public static class ConfigureServicesExtension
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
             options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpcontext =>
-                                    RateLimitPartition.GetFixedWindowLimiter(
-                                                       partitionKey: httpcontext.Request.Headers.Host.ToString(),
+                                    RateLimitPartition.GetFixedWindowLimiter(partitionKey: httpcontext.Request.Headers.Host.ToString(),
                                     factory: partition => new FixedWindowRateLimiterOptions
                                     {
                                         AutoReplenishment = true,
