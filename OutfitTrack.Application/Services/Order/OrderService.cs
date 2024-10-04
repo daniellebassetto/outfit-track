@@ -29,7 +29,7 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
         List<OrderItem> items = inputCreate.ListCreatedItem.Select(i => new OrderItem(count++, order.Id, i.ProductId, i.Variation, EnumStatusOrderItem.InProgress, null, null)).ToList();
         order.SetProperty(nameof(Order.ListOrderItem), items);
 
-        foreach(var item in order.ListOrderItem!)
+        foreach (var item in order.ListOrderItem!)
         {
             _orderItemRepository.Create(item);
         }
@@ -43,7 +43,7 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
         // Verifica se o pedido existe
         Order? order = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Condicional não encontrado.");
 
-        if(order.Status == EnumStatusOrder.Closed)
+        if (order.Status == EnumStatusOrder.Closed)
             throw new InvalidOperationException("Condicional finalizado!.");
 
         // Recupera os itens existentes do pedido
@@ -118,6 +118,10 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
     public bool Close(long id)
     {
         Order? order = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Pedido não encontrado.");
+
+        if (order.Status != EnumStatusOrder.AwaitingClosure)
+            throw new KeyNotFoundException("Há itens do pedindo que estão com status 'Em andamento'");
+
         order.SetProperty(nameof(OrderItem.Status), EnumStatusOrder.Closed);
 
         _repository.Update(order);
