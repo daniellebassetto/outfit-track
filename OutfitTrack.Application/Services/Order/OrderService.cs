@@ -47,14 +47,14 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
             throw new InvalidOperationException("Condicional finalizado!.");
 
         // Recupera os itens existentes do pedido
-        List<OrderItem> existingItem = _orderItemRepository.GetList(x => x.OrderId == id)?.ToList() ?? [];
+        List<OrderItem> existingItems = _orderItemRepository.GetList(x => x.OrderId == id)?.ToList() ?? [];
 
         // Deleta itens do pedido que estão na lista de exclusão
         if (inputUpdateOrder.ListDeletedItem != null)
         {
             foreach (var itemId in inputUpdateOrder.ListDeletedItem)
             {
-                var itemToDelete = existingItem.FirstOrDefault(x => x.Item == itemId);
+                var itemToDelete = existingItems.FirstOrDefault(x => x.Item == itemId);
                 if (itemToDelete != null)
                     _orderItemRepository.Delete(itemToDelete);
             }
@@ -65,7 +65,7 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
         {
             foreach (var updateItem in inputUpdateOrder.ListUpdatedItem)
             {
-                var itemToUpdate = existingItem.FirstOrDefault(x => x.Id == updateItem.Id);
+                var itemToUpdate = existingItems.FirstOrDefault(x => x.Id == updateItem.Id);
                 if (itemToUpdate != null)
                 {
                     itemToUpdate.SetProperty(nameof(OrderItem.Variation), updateItem.InputUpdate!.Variation);
@@ -77,20 +77,23 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
         // Adiciona novos itens ao pedido
         if (inputUpdateOrder.ListCreatedItem != null)
         {
-            int nextItemNumber = existingItem.Count + 1;
-            foreach (var createItem in inputUpdateOrder.ListCreatedItem)
+            int nextItemNumber = existingItems.Count + 1;
+            List<OrderItem> newItems = inputUpdateOrder.ListCreatedItem.Select(createItem => new OrderItem(nextItemNumber++, order.Id, createItem.ProductId, createItem.Variation, EnumStatusOrderItem.InProgress, null, null)).ToList();
+
+            existingItems.AddRange(newItems);
+
+            foreach (var newItem in newItems)
             {
-                // Adiciona o novo item ao pedido
-                var product = _productRepository.Get(x => x.Id == createItem.ProductId) ?? throw new KeyNotFoundException("Produto não encontrado.");
-                OrderItem newItem = new(nextItemNumber++, order.Id, createItem.ProductId, createItem.Variation, EnumStatusOrderItem.InProgress, product, order);
                 _orderItemRepository.Create(newItem);
-                existingItem.Add(newItem);
             }
         }
 
-        // Verifica o status dos itens para mudar o status do pedido
-        if (existingItem.All(x => x.Status != EnumStatusOrderItem.InProgress))
+        order.SetProperty(nameof(Order.ListOrderItem), existingItems);
+
+        if (existingItems.All(x => x.Status != EnumStatusOrderItem.InProgress)) // se todos os itens já foram comprados/retornados, o pedido aguarda fechamento
             order.SetProperty(nameof(Order.Status), EnumStatusOrder.AwaitingClosure);
+        else if (order.Status == EnumStatusOrder.AwaitingClosure) // se tem algum item em progresso e o pedido estava aguardando fechamento, volta para pendente
+            order.SetProperty(nameof(Order.Status), EnumStatusOrder.Pending);
 
         // Atualiza o pedido
         _repository.Update(order);

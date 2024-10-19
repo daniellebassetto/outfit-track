@@ -10,7 +10,7 @@ public class OrderMap : IEntityTypeConfiguration<Order>
     {
         builder.ToTable("pedido");
 
-        builder.HasMany(x => x.ListOrderItem).WithOne(x => x.Order).HasForeignKey(x => x.OrderId);
+        builder.HasMany(x => x.ListOrderItem).WithOne(x => x.Order).HasForeignKey(x => x.OrderId).OnDelete(DeleteBehavior.Cascade);
         builder.HasOne(x => x.Customer).WithMany(x => x.ListOrder).HasForeignKey(x => x.CustomerId);
 
         builder.HasKey(x => x.Id);

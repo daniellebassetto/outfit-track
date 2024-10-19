@@ -10,6 +10,4 @@ public class OutputProduct
     public decimal? Price { get; set; }
     public string? Brand { get; set; }
     public string? Category { get; set; }
-
-    public virtual List<OutputOrderItem>? ListOrderItem { get; set; }
 }

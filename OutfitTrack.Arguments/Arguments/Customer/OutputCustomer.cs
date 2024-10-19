@@ -19,6 +19,4 @@ public class OutputCustomer
     public string? Rg { get; set; }
     public string? MobilePhoneNumber { get; set; }
     public string? Email { get; set; }
-
-    public virtual List<OutputOrder>? ListOrder { get; set; }
 }
