@@ -55,7 +55,7 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
     #region Update
     public virtual TOutput Update(long id, TInputUpdate inputUpdate)
     {
-        var oldEntity = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Id inválido ou inexistente. Processo: Update");
+        var oldEntity = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Id inválido ou inexistente.");
 
         var updatedEntity = UpdateEntity(oldEntity, inputUpdate);
         var result = _repository!.Update(oldEntity) ?? throw new InvalidOperationException("Falha ao atualizar a entidade.");
@@ -83,7 +83,7 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
     #region Delete
     public virtual bool Delete(long id)
     {
-        var entity = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Id inválido ou inexistente. Processo: Delete");
+        var entity = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Id inválido ou inexistente.");
         _repository.Delete(entity);
         _unitOfWork!.Commit();
 
