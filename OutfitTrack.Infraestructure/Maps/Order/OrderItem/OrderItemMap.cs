@@ -11,7 +11,7 @@ public class OrderItemMap : IEntityTypeConfiguration<OrderItem>
         builder.ToTable("pedido_item");
 
         builder.HasOne(x => x.Order).WithMany(x => x.ListOrderItem).HasForeignKey(x => x.OrderId);
-        builder.HasOne(x => x.Product).WithMany(x => x.ListOrderItem).HasForeignKey(x => x.ProductId);
+        builder.HasOne(x => x.Product).WithMany(x => x.ListOrderItem).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
 
         builder.HasKey(x => x.Id);
 

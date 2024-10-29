@@ -13,14 +13,14 @@ public class BaseEntity<TEntity> : BaseSetProperty<TEntity>
 
     public TEntity SetCreateData()
     {
-        CreationDate = DateTime.Now;
+        CreationDate = DateTime.UtcNow;
 
         return (this as TEntity)!;
     }
 
     public TEntity SetUpdateData()
     {
-        ChangeDate = DateTime.Now;
+        ChangeDate = DateTime.UtcNow;
 
         return (this as TEntity)!;
     }

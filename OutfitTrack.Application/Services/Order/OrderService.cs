@@ -40,23 +40,24 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
 
     public override OutputOrder Update(long id, InputUpdateOrder inputUpdateOrder)
     {
-        // Verifica se o pedido existe
         Order? order = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Condicional não encontrado.");
 
         if (order.Status == EnumStatusOrder.Closed)
-            throw new InvalidOperationException("Condicional finalizado!.");
+            throw new InvalidOperationException("Condicional finalizado!");
 
-        // Recupera os itens existentes do pedido
-        List<OrderItem> existingItems = _orderItemRepository.GetList(x => x.OrderId == id)?.ToList() ?? [];
+        List<OrderItem> existingItems = order.ListOrderItem!;
 
         // Deleta itens do pedido que estão na lista de exclusão
         if (inputUpdateOrder.ListDeletedItem != null)
         {
-            foreach (var itemId in inputUpdateOrder.ListDeletedItem)
+            foreach (var idItem in inputUpdateOrder.ListDeletedItem)
             {
-                var itemToDelete = existingItems.FirstOrDefault(x => x.Item == itemId);
+                var itemToDelete = existingItems.FirstOrDefault(x => x.Id == idItem);
                 if (itemToDelete != null)
+                {
                     _orderItemRepository.Delete(itemToDelete);
+                    existingItems.Remove(itemToDelete);
+                }
             }
         }
 
@@ -70,6 +71,7 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
                 {
                     itemToUpdate.SetProperty(nameof(OrderItem.Variation), updateItem.InputUpdate!.Variation);
                     itemToUpdate.SetProperty(nameof(OrderItem.Status), updateItem.InputUpdate.Status);
+                    itemToUpdate.SetProperty(nameof(OrderItem.ChangeDate), DateTime.UtcNow);
                 }
             }
         }
@@ -78,9 +80,8 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
         if (inputUpdateOrder.ListCreatedItem != null)
         {
             int nextItemNumber = existingItems.Count + 1;
-            List<OrderItem> newItems = inputUpdateOrder.ListCreatedItem.Select(createItem => new OrderItem(nextItemNumber++, order.Id, createItem.ProductId, createItem.Variation, EnumStatusOrderItem.InProgress, null, null)).ToList();
-
-            existingItems.AddRange(newItems);
+            List<OrderItem> newItems = inputUpdateOrder.ListCreatedItem.Select(createItem =>
+                new OrderItem(nextItemNumber++, order.Id, createItem.ProductId, createItem.Variation, EnumStatusOrderItem.InProgress, null, null)).ToList();
 
             foreach (var newItem in newItems)
             {
@@ -89,33 +90,20 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
         }
 
         order.SetProperty(nameof(Order.ListOrderItem), existingItems);
+        UpdateOrderStatus(order, existingItems);
 
-        if (existingItems.All(x => x.Status != EnumStatusOrderItem.InProgress)) // se todos os itens já foram comprados/retornados, o pedido aguarda fechamento
-            order.SetProperty(nameof(Order.Status), EnumStatusOrder.AwaitingClosure);
-        else if (order.Status == EnumStatusOrder.AwaitingClosure) // se tem algum item em progresso e o pedido estava aguardando fechamento, volta para pendente
-            order.SetProperty(nameof(Order.Status), EnumStatusOrder.Pending);
-
-        // Atualiza o pedido
         _repository.Update(order);
         _unitOfWork!.Commit();
 
-        // Retorna o pedido atualizado
         return FromEntityToOutput(order);
     }
 
-    public override bool Delete(long id)
+    private static void UpdateOrderStatus(Order order, List<OrderItem> existingItems)
     {
-        Order? order = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException("Pedido não encontrado.");
-
-        var items = _orderItemRepository.GetList(x => x.OrderId == id)?.ToList();
-        foreach (var item in items!)
-        {
-            _orderItemRepository.Delete(item);
-        }
-
-        _repository.Delete(order);
-        _unitOfWork!.Commit();
-        return true;
+        if (existingItems.All(x => x.Status != EnumStatusOrderItem.InProgress))
+            order.SetProperty(nameof(Order.Status), EnumStatusOrder.AwaitingClosure);
+        else if (order.Status == EnumStatusOrder.AwaitingClosure)
+            order.SetProperty(nameof(Order.Status), EnumStatusOrder.Pending);
     }
 
     public bool Close(long id)
@@ -125,10 +113,11 @@ public class OrderService(IUnitOfWork unitOfWork, ICustomerRepository customerRe
         if (order.Status != EnumStatusOrder.AwaitingClosure)
             throw new KeyNotFoundException("Há itens do pedindo que estão com status 'Em andamento'");
 
-        order.SetProperty(nameof(OrderItem.Status), EnumStatusOrder.Closed);
+        order.SetProperty(nameof(Order.Status), EnumStatusOrder.Closed);
+        order.SetProperty(nameof(Order.ClosingDate), DateTime.UtcNow);
 
         _repository.Update(order);
-
+        _unitOfWork!.Commit();
         return true;
     }
 }
