@@ -103,7 +103,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         column: x => x.id_cliente,
                         principalTable: "cliente",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -136,7 +136,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         column: x => x.id_produto,
                         principalTable: "produto",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
