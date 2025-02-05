@@ -1,6 +1,6 @@
 # OutfitTrack
 
-**OutfitTrack** é uma API desenvolvida em **.NET 8** com C# para gerenciar "malinhas" de roupas e calçados, um modelo de negócio muito comum em cidades pequenas. Inspirado no controle manual realizado pela loja de roupas dos meus pais, localizada em Garça/SP, o projeto proporciona uma solução digital eficiente para o dia a dia.
+**OutfitTrack** é uma API desenvolvida em **.NET 9** com C# para gerenciar "malinhas" de roupas e calçados, um modelo de negócio muito comum em cidades pequenas. Inspirado no controle manual realizado pela loja de roupas dos meus pais, localizada em Garça/SP, o projeto proporciona uma solução digital eficiente para o dia a dia.
 
 ---
 
@@ -95,7 +95,7 @@ O **Dependabot** foi integrado ao projeto para manter as dependências sempre at
 ## ⚙️ Configuração
 
 ### Pré-requisitos
-- **.NET 8 SDK**
+- **.NET 9 SDK**
 - **MySQL** instalado e configurado
 - Ferramenta de gerenciamento de dependências, como NuGet
 
