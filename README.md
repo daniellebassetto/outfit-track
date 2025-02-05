@@ -16,7 +16,7 @@
 
 ## 🛠 Tecnologias Utilizadas
 
-- **.NET 8**
+- **.NET 9**
 - **C#**
 - **Entity Framework Core** com Fluent API
 - **LINQ e Funções Lambda**
