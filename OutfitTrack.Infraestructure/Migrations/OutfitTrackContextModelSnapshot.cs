@@ -17,22 +17,21 @@ namespace OutfitTrack.Infraestructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("OutfitTrack.Domain.Entities.Customer", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("BIGINT")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime?>("BirthDate")
-                        .IsRequired()
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_nascimento");
 
@@ -58,8 +57,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnName("cpf")
                         .IsFixedLength();
 
-                    b.Property<DateTime?>("CreationDate")
-                        .IsRequired()
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_cadastro");
 
@@ -121,12 +119,12 @@ namespace OutfitTrack.Infraestructure.Migrations
 
             modelBuilder.Entity("OutfitTrack.Domain.Entities.Order", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("BIGINT")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime?>("ChangeDate")
                         .HasColumnType("DATETIME")
@@ -136,18 +134,15 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_encerramento");
 
-                    b.Property<DateTime?>("CreationDate")
-                        .IsRequired()
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_cadastro");
 
-                    b.Property<long?>("CustomerId")
-                        .IsRequired()
+                    b.Property<long>("CustomerId")
                         .HasColumnType("BIGINT")
                         .HasColumnName("id_cliente");
 
-                    b.Property<long?>("Number")
-                        .IsRequired()
+                    b.Property<long>("Number")
                         .HasColumnType("BIGINT")
                         .HasColumnName("numero");
 
@@ -169,34 +164,30 @@ namespace OutfitTrack.Infraestructure.Migrations
 
             modelBuilder.Entity("OutfitTrack.Domain.Entities.OrderItem", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("BIGINT")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime?>("ChangeDate")
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_alteracao");
 
-                    b.Property<DateTime?>("CreationDate")
-                        .IsRequired()
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_cadastro");
 
-                    b.Property<int?>("Item")
-                        .IsRequired()
+                    b.Property<int>("Item")
                         .HasColumnType("INT")
                         .HasColumnName("quantidade");
 
-                    b.Property<long?>("OrderId")
-                        .IsRequired()
+                    b.Property<long>("OrderId")
                         .HasColumnType("BIGINT")
                         .HasColumnName("id_pedido");
 
-                    b.Property<long?>("ProductId")
-                        .IsRequired()
+                    b.Property<long>("ProductId")
                         .HasColumnType("BIGINT")
                         .HasColumnName("id_produto");
 
@@ -220,12 +211,12 @@ namespace OutfitTrack.Infraestructure.Migrations
 
             modelBuilder.Entity("OutfitTrack.Domain.Entities.Product", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("BIGINT")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Brand")
                         .HasColumnType("VARCHAR(50)")
@@ -244,8 +235,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("VARCHAR(20)")
                         .HasColumnName("codigo");
 
-                    b.Property<DateTime?>("CreationDate")
-                        .IsRequired()
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("DATETIME")
                         .HasColumnName("data_cadastro");
 
@@ -254,8 +244,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .HasColumnType("VARCHAR(100)")
                         .HasColumnName("descricao");
 
-                    b.Property<decimal?>("Price")
-                        .IsRequired()
+                    b.Property<decimal>("Price")
                         .HasColumnType("DECIMAL(10,2)")
                         .HasColumnName("preco");
 
@@ -269,7 +258,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                     b.HasOne("OutfitTrack.Domain.Entities.Customer", "Customer")
                         .WithMany("ListOrder")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -286,7 +275,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                     b.HasOne("OutfitTrack.Domain.Entities.Product", "Product")
                         .WithMany("ListOrderItem")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
