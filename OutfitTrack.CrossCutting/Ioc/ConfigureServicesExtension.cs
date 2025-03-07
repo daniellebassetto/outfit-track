@@ -10,6 +10,7 @@ using OutfitTrack.Application.ApiManagement;
 using OutfitTrack.Application.Interfaces;
 using OutfitTrack.Application.Mapping;
 using OutfitTrack.Application.Services;
+using OutfitTrack.CrossCutting.Swagger;
 using OutfitTrack.Domain.Interfaces;
 using OutfitTrack.Infraestructure;
 using OutfitTrack.Infraestructure.Repositories;
@@ -96,6 +97,8 @@ public static class ConfigureServicesExtension
                 Version = "v1",
                 Contact = contact
             });
+
+            x.SchemaFilter<EnumSchemaFilter>();
         });
 
         ServiceCollection.AddSwaggerGenNewtonsoftSupport();
