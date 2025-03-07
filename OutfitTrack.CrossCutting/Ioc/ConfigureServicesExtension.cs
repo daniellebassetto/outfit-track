@@ -29,7 +29,7 @@ public static class ConfigureServicesExtension
 
         AddControlers();
         AddOptions();
-        AddTransient();
+        AddScoped();
         AddSingleton();
         AddSwaggerGen();
         AddMySql();
@@ -55,19 +55,20 @@ public static class ConfigureServicesExtension
         ServiceCollection.AddOptions();
     }
 
-    private static void AddTransient()
+    private static void AddScoped()
     {
-        ServiceCollection.AddTransient<ICustomerService, CustomerService>();
-        ServiceCollection.AddTransient<IProductService, ProductService>();
-        ServiceCollection.AddTransient<IOrderService, OrderService>();
+        ServiceCollection.AddScoped<ICustomerService, CustomerService>();
+        ServiceCollection.AddScoped<IProductService, ProductService>();
+        ServiceCollection.AddScoped<IOrderService, OrderService>();
 
-        ServiceCollection.AddTransient<ICustomerRepository, CustomerRepository>();
-        ServiceCollection.AddTransient<IProductRepository, ProductRepository>();
-        ServiceCollection.AddTransient<IOrderRepository, OrderRepository>();
-        ServiceCollection.AddTransient<IOrderItemRepository, OrderItemRepository>();
-        ServiceCollection.AddTransient<IUnitOfWork, UnitOfWork>();
+        ServiceCollection.AddScoped<ICustomerRepository, CustomerRepository>();
+        ServiceCollection.AddScoped<IProductRepository, ProductRepository>();
+        ServiceCollection.AddScoped<IOrderRepository, OrderRepository>();
+        ServiceCollection.AddScoped<IOrderItemRepository, OrderItemRepository>();
 
-        ServiceCollection.AddTransient<IApiDataService, ApiDataService>();
+        ServiceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        ServiceCollection.AddScoped<IApiDataService, ApiDataService>();
     }
 
     private static void AddSingleton()

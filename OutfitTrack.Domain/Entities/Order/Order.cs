@@ -10,7 +10,7 @@ public class Order : BaseEntity<Order>
     public long? Number { get; private set; }
     public string? Observation { get; private set; }
 
-    public virtual List<OrderItem>? ListOrderItem { get; private set; }    
+    public virtual List<OrderItem>? ListOrderItem { get; private set; }
     public virtual Customer? Customer { get; private set; }
 
     public Order() { }

@@ -4,5 +4,5 @@ public enum EnumStatusOrder
 {
     Pending,
     AwaitingClosure,
-    Closed    
+    Closed
 }
