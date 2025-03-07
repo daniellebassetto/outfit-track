@@ -1,7 +1,7 @@
-﻿using OutfitTrack.Arguments;
+﻿using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Arguments;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces;
-using OutfitTrack.Application.Interfaces;
 
 namespace OutfitTrack.Application.Services;
 

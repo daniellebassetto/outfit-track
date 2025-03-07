@@ -1,8 +1,7 @@
-﻿using OutfitTrack.Arguments;
+﻿using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Arguments;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces;
-using OutfitTrack.Application.Interfaces;
-using System.Text.RegularExpressions;
 
 namespace OutfitTrack.Application.Services;
 
@@ -15,10 +14,10 @@ public class CustomerService(IUnitOfWork unitOfWork) : BaseService<ICustomerRepo
         if (originalCustomer is not null)
             throw new InvalidOperationException($"Cpf '{inputCreate.Cpf}' já cadastrado na base de dados.");
 
-        if((DateTime.Now.Year - inputCreate.BirthDate!.Value.Year) < 18)
+        if ((DateTime.Now.Year - inputCreate.BirthDate!.Value.Year) < 18)
             throw new InvalidOperationException($"Cliente não pode ter menos de 18 anos pois será o responsável pelo condicional");
 
-        if(!inputCreate.Cpf!.All(char.IsNumber))
+        if (!inputCreate.Cpf!.All(char.IsNumber))
             throw new InvalidOperationException($"CPF deve conter apenas números");
 
         if (!inputCreate.MobilePhoneNumber!.All(char.IsNumber))
