@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OutfitTrack.Arguments;
 using OutfitTrack.Application.ApiManagement;
 using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Arguments;
 
 namespace OutfitTrack.Api.Controllers;
 

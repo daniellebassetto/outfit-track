@@ -1,7 +1,7 @@
-﻿using OutfitTrack.Arguments;
+﻿using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Arguments;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces;
-using OutfitTrack.Application.Interfaces;
 
 namespace OutfitTrack.Application.Services;
 
@@ -14,7 +14,7 @@ public class ProductService(IUnitOfWork unitOfWork) : BaseService<IProductReposi
         if (originalProduct is not null)
             throw new InvalidOperationException($"Código '{inputCreate.Code}' já cadastrado na base de dados.");
 
-        if(inputCreate.Price == 0)
+        if (inputCreate.Price == 0)
             throw new InvalidOperationException($"Valor do produto inválido.");
 
         Product product = FromInputCreateToEntity(inputCreate);

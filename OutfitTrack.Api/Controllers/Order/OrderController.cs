@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OutfitTrack.Arguments;
 using OutfitTrack.Application.ApiManagement;
 using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Arguments;
 
 namespace OutfitTrack.Api.Controllers;
 
 [Route("api/[controller]")]
-public class OrderController(IApiDataService apiDataService, IOrderService service) : BaseController<IOrderService, InputCreateOrder, InputUpdateOrder, OutputOrder, InputIdentifierOrder>(apiDataService, service) 
+public class OrderController(IApiDataService apiDataService, IOrderService service) : BaseController<IOrderService, InputCreateOrder, InputUpdateOrder, OutputOrder, InputIdentifierOrder>(apiDataService, service)
 {
     [HttpPut("Close/{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

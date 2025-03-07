@@ -38,25 +38,27 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
     {
         IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
 
+        var parameter = Expression.Parameter(typeof(TEntity), "x");
+        Expression? combinedExpression = null;
+
         foreach (var property in typeof(TInputIdentifier).GetProperties())
         {
-            var propertyName = property.Name;
             var propertyValue = property.GetValue(inputIdentifier);
+            if (propertyValue == null)
+                continue;
 
-            if (propertyValue != null)
-            {
-                var parameter = Expression.Parameter(typeof(TEntity), "x");
-                var member = Expression.Property(parameter, propertyName);
-                var constant = Expression.Constant(propertyValue, member.Type);
+            var member = Expression.Property(parameter, property.Name);
+            var constant = Expression.Constant(propertyValue, member.Type);
+            var body = Expression.Equal(member, constant);
 
-                var body = Expression.Equal(member, constant);
-                var lambda = Expression.Lambda<Func<TEntity, bool>>(body, parameter);
-
-                query = query.Where(lambda);
-            }
+            combinedExpression = combinedExpression == null ? body : Expression.AndAlso(combinedExpression, body);
         }
 
-        query = BaseRepository<TEntity, TInputIdentifier>.IncludeVirtualProperties(query);
+        if (combinedExpression != null)
+        {
+            var lambda = Expression.Lambda<Func<TEntity, bool>>(combinedExpression, parameter);
+            query = query.Where(lambda);
+        }
 
         return query.FirstOrDefault();
     }
