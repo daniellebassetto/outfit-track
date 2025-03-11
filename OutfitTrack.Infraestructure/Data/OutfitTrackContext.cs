@@ -6,10 +6,11 @@ namespace OutfitTrack.Infraestructure;
 
 public class OutfitTrackContext : DbContext
 {
-    public DbSet<Customer> Customer { get; set; }
-    public DbSet<Product> Product { get; set; }
-    public DbSet<Order> Order { get; set; }
-    public DbSet<OrderItem> OrderItem { get; set; }
+    public DbSet<Customer>? Customer { get; set; }
+    public DbSet<Product>? Product { get; set; }
+    public DbSet<Order>? Order { get; set; }
+    public DbSet<OrderItem>? OrderItem { get; set; }
+    public DbSet<User>? User { get; set; }
 
     public OutfitTrackContext() { }
 
@@ -21,6 +22,7 @@ public class OutfitTrackContext : DbContext
         modelBuilder.ApplyConfiguration(new ProductMap());
         modelBuilder.ApplyConfiguration(new OrderMap());
         modelBuilder.ApplyConfiguration(new OrderItemMap());
+        modelBuilder.ApplyConfiguration(new UserMap());
 
         base.OnModelCreating(modelBuilder);
     }

@@ -11,9 +11,10 @@ public class InputCreateCustomer
     [MaxLength(50, ErrorMessage = "O sobrenome deve ter no máximo 50 caracteres.")]
     public string? LastName { get; private set; }
 
+    [BirthDate]
     public DateTime? BirthDate { get; private set; }
 
-    [StringLength(11, MinimumLength = 11, ErrorMessage = "O CPF deve ter exatamente 11 caracteres numéricos.")]
+    [RegularExpression(@"^\d{11}$", ErrorMessage = "O CPF deve conter exatamente 11 dígitos numéricos.")]
     public string? Cpf { get; private set; }
 
     [MaxLength(100, ErrorMessage = "O endereço deve ter no máximo 100 caracteres.")]
@@ -28,7 +29,7 @@ public class InputCreateCustomer
     [MaxLength(10, ErrorMessage = "O número deve ter no máximo 10 caracteres.")]
     public string? Number { get; private set; }
 
-    [StringLength(8, MinimumLength = 8, ErrorMessage = "O CEP deve ter exatamente 8 caracteres.")]
+    [RegularExpression(@"^\d{8}$", ErrorMessage = "O CEP deve conter apenas 8 dígitos numéricos.")]
     public string? PostalCode { get; private set; }
 
     [MaxLength(50, ErrorMessage = "O nome da cidade deve ter no máximo 50 caracteres.")]
@@ -36,13 +37,14 @@ public class InputCreateCustomer
 
     public EnumStateAbbreviationBrazil? StateAbbreviation { get; private set; }
 
-    [StringLength(9, MinimumLength = 9, ErrorMessage = "O RG deve ter exatamente 9 caracteres numéricos.")]
+    [RegularExpression(@"^\d{9}$", ErrorMessage = "O RG deve conter apenas 9 dígitos numéricos.")]
     public string? Rg { get; private set; }
 
-    [StringLength(13, MinimumLength = 13, ErrorMessage = "O número de celular deve ter exatamente 13 caracteres numéricos.")]
+    [RegularExpression(@"^\d{13}$", ErrorMessage = "O número de celular deve ter exatamente 13 caracteres numéricos.")]
     public string? MobilePhoneNumber { get; private set; }
 
-    [MaxLength(256, ErrorMessage = "O email deve ter no máximo 256 caracteres.")]
+    [EmailAddress(ErrorMessage = "O e-mail informado não é válido.")]
+    [MaxLength(256, ErrorMessage = "O e-mail deve ter no máximo 256 caracteres.")] 
     public string? Email { get; private set; }
 
     public InputCreateCustomer() { }

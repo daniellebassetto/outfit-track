@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OutfitTrack.Application.ApiManagement;
 using OutfitTrack.Application.Interfaces;
@@ -6,6 +7,7 @@ using OutfitTrack.Application.Interfaces;
 namespace OutfitTrack.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Produces("application/json")]
 [Consumes("application/json")]
 public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInputIdentifier> : Controller
@@ -200,3 +202,9 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
         }
     }
 }
+
+#region TInputCreate, TInputUpdate, TOutput, TInputIdentifier
+public class BaseController_1<TIService>(IApiDataService apiDataService, TIService service) : BaseController<TIService, object, object, object, object>(apiDataService, service)
+    where TIService : IBaseService_0
+{ }
+#endregion

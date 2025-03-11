@@ -1,19 +1,24 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using OutfitTrack.Application.ApiManagement;
 using OutfitTrack.Application.Interfaces;
 using OutfitTrack.Application.Mapping;
+using OutfitTrack.Application.Security;
 using OutfitTrack.Application.Services;
 using OutfitTrack.CrossCutting.Swagger;
 using OutfitTrack.Domain.Interfaces;
 using OutfitTrack.Infraestructure;
 using OutfitTrack.Infraestructure.Repositories;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using System.Threading.RateLimiting;
 
 namespace OutfitTrack.CrossCutting.Ioc;
@@ -58,10 +63,13 @@ public static class ConfigureServicesExtension
 
     private static void AddScoped()
     {
+        ServiceCollection.AddScoped<IUserService, UserService>();
+        ServiceCollection.AddScoped<IAuthenticationService, AuthenticationService>();
         ServiceCollection.AddScoped<ICustomerService, CustomerService>();
         ServiceCollection.AddScoped<IProductService, ProductService>();
         ServiceCollection.AddScoped<IOrderService, OrderService>();
 
+        ServiceCollection.AddScoped<IUserRepository, UserRepository>();
         ServiceCollection.AddScoped<ICustomerRepository, CustomerRepository>();
         ServiceCollection.AddScoped<IProductRepository, ProductRepository>();
         ServiceCollection.AddScoped<IOrderRepository, OrderRepository>();
@@ -98,10 +106,63 @@ public static class ConfigureServicesExtension
                 Contact = contact
             });
 
+            x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            {
+                Name = "JWT Authentication",
+                Description = "Digitar somente JWT Bearer token",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
+                    Type = ReferenceType.SecurityScheme
+                }
+            });
+
+            x.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+
             x.SchemaFilter<EnumSchemaFilter>();
         });
 
         ServiceCollection.AddSwaggerGenNewtonsoftSupport();
+    }
+
+    public static void AddToken()
+    {
+        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+        ServiceCollection.AddAuthentication((options) =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(c =>
+        {
+            c.RequireHttpsMetadata = false;
+            c.SaveToken = true;
+            c.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecurityKeyJwt.Key)),
+                ClockSkew = TimeSpan.Zero
+            };
+        });
     }
 
     private static void AddMySql()
