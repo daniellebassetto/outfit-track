@@ -15,7 +15,7 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
 {
     protected Guid _guidApiDataRequest;
     protected readonly IUnitOfWork? _unitOfWork = unitOfWork;
-    protected readonly TIBaseRepository? _repository = unitOfWork!.GetRepository<TIBaseRepository, TEntity, TInputIdentifier>();
+    protected readonly TIBaseRepository? _repository = unitOfWork != null ? unitOfWork!.GetRepository<TIBaseRepository, TEntity, TInputIdentifier>() : default;
 
     public void SetGuid(Guid guidApiDataRequest)
     {
@@ -118,3 +118,7 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
     }
     #endregion
 }
+
+#region All Parameters
+public class BaseService_0() : BaseService<IBaseRepository_0, object, object, BaseEntity_0, object, object>(default) { }
+#endregion

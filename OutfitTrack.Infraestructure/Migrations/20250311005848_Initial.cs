@@ -80,6 +80,26 @@ namespace OutfitTrack.Infraestructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "usuario",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "BIGINT", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    email = table.Column<string>(type: "VARCHAR(256)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    senha = table.Column<string>(type: "VARCHAR(200)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    data_expiracao_token = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    data_alteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_usuario", x => x.id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "pedido",
                 columns: table => new
                 {
@@ -160,6 +180,9 @@ namespace OutfitTrack.Infraestructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "pedido_item");
+
+            migrationBuilder.DropTable(
+                name: "usuario");
 
             migrationBuilder.DropTable(
                 name: "pedido");

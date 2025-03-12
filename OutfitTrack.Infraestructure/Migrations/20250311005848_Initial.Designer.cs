@@ -12,7 +12,7 @@ using OutfitTrack.Infraestructure;
 namespace OutfitTrack.Infraestructure.Migrations
 {
     [DbContext(typeof(OutfitTrackContext))]
-    [Migration("20250205225857_Initial")]
+    [Migration("20250311005848_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace OutfitTrack.Infraestructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -254,6 +254,42 @@ namespace OutfitTrack.Infraestructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("produto", (string)null);
+                });
+
+            modelBuilder.Entity("OutfitTrack.Domain.Entities.User", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("BIGINT")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("ChangeDate")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("data_alteracao");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("data_cadastro");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(256)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)")
+                        .HasColumnName("senha");
+
+                    b.Property<DateTime>("TokenExpirationDate")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("data_expiracao_token");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("usuario", (string)null);
                 });
 
             modelBuilder.Entity("OutfitTrack.Domain.Entities.Order", b =>

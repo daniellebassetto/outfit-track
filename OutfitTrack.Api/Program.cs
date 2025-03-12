@@ -15,11 +15,15 @@ app.UseSwaggerUI(x =>
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+
 app.UseStaticFiles();
 
 app.UseCors("wasm");
 
 app.UseRouting();
+
+app.UseAuthorization();
 
 app.UseRateLimiter();
 

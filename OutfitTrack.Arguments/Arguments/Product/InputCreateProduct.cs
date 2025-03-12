@@ -11,6 +11,7 @@ public class InputCreateProduct
     [MaxLength(100, ErrorMessage = "A descrição deve ter no máximo 100 caracteres.")]
     public string? Description { get; private set; }
 
+    [Range(0.01, 10000.00, ErrorMessage = "O preço deve estar entre 0,01 e 10.000,00.")]
     public decimal? Price { get; private set; }
 
     [MaxLength(50, ErrorMessage = "A marca deve ter no máximo 50 caracteres.")]

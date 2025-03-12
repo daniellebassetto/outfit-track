@@ -20,5 +20,9 @@ public class MapperEntityOutput : Profile
         CreateMap<Order, OutputOrder>().ReverseMap();
         CreateMap<OrderItem, OutputOrderItem>().ReverseMap();
         #endregion
+
+        #region User
+        CreateMap<User, OutputUser>().ReverseMap();
+        #endregion
     }
 }
