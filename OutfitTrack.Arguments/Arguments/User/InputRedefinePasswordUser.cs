@@ -3,28 +3,28 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OutfitTrack.Arguments;
 
-public class InputCreateUser
+public class InputRedefinePasswordUser
 {
-    [EmailAddress(ErrorMessage = "O e-mail informado não é válido.")]
-    [MaxLength(256, ErrorMessage = "O e-mail deve ter no máximo 256 caracteres.")]
-    public string? Email { get; private set; }
-
     [MinLength(8, ErrorMessage = "A senha deve ter pelo menos 8 caracteres.")]
     [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial.")]
     public string? Password { get; private set; }
 
     [MinLength(8, ErrorMessage = "A senha deve ter pelo menos 8 caracteres.")]
     [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial.")]
-    [Compare("Password", ErrorMessage = "As senhas não coincidem.")]
-    public string? ConfirmPassword { get; private set; }
+    public string? NewPassword { get; private set; }
 
-    public InputCreateUser() { }
+    [MinLength(8, ErrorMessage = "A senha deve ter pelo menos 8 caracteres.")]
+    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial.")]
+    [Compare("NewPassword", ErrorMessage = "As novas senhas não coincidem.")]
+    public string? ConfirmNewPassword { get; private set; }
+
+    public InputRedefinePasswordUser() { }
 
     [JsonConstructor]
-    public InputCreateUser(string email, string password, string confirmPassword)
+    public InputRedefinePasswordUser(string password, string newPassword, string confirmNewPassword)
     {
-        Email = email;
         Password = password;
-        ConfirmPassword = confirmPassword;
+        NewPassword = newPassword;
+        ConfirmNewPassword = confirmNewPassword;
     }
 }

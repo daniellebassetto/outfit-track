@@ -1,4 +1,5 @@
 ﻿using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Application.Security;
 using OutfitTrack.Arguments;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces;
@@ -16,6 +17,8 @@ public class UserService(IUnitOfWork unitOfWork) : BaseService<IUserRepository, 
 
         User user = FromInputCreateToEntity(inputCreate);
         user.SetProperty(nameof(User.TokenExpirationDate), DateTime.UtcNow.AddDays(7));
+        user.SetProperty(nameof(User.Password), PasswordEncryption.Encrypt(user.Password!));
+
         var entity = _repository.Create(user) ?? throw new InvalidOperationException("Falha ao criar o usuário.");
         _unitOfWork!.Commit();
 
@@ -26,12 +29,38 @@ public class UserService(IUnitOfWork unitOfWork) : BaseService<IUserRepository, 
     {
         User? originalUser = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException($"Não foi encontrado nenhum usuário correspondente a este Id.");
 
-        User user = UpdateEntity(originalUser, inputUpdate) ?? throw new Exception("Problemas para realizar atualização.");
+        if (PasswordEncryption.Verify(inputUpdate.Password!, originalUser.Password!))
+        {
+            originalUser.SetProperty(nameof(User.Email), inputUpdate.Email);
+            var entity = _repository!.Update(originalUser) ?? throw new InvalidOperationException("Falha ao atualizar o usuário.");
+            _unitOfWork!.Commit();
+
+            return FromEntityToOutput(entity);
+        }
+
+        throw new InvalidOperationException($"Senha incorreta.");
+    }
+
+    public bool RedefinePassword(long id, InputRedefinePasswordUser inputRedefinePassword)
+    {
+        User? originalUser = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException($"Não foi encontrado nenhum usuário correspondente a este Id.");
+
+        if (PasswordEncryption.Verify(inputRedefinePassword.Password!, originalUser.Password!))
+        {
+            originalUser.SetProperty(nameof(User.Password), PasswordEncryption.Encrypt(inputRedefinePassword.NewPassword!));
+            _repository!.Update(originalUser);
+            _unitOfWork!.Commit();
+            return true;
+        }
+
+        throw new InvalidOperationException($"Senha antiga incorreta.");
+    }
+
+    public void UpdateTokenExpirationDate(long id)
+    {
+        User? user = _repository!.Get(x => x.Id == id) ?? throw new KeyNotFoundException($"Não foi encontrado nenhum usuário correspondente a este Id.");
         user.SetProperty(nameof(User.TokenExpirationDate), DateTime.UtcNow.AddDays(7));
-
-        var entity = _repository!.Update(user) ?? throw new InvalidOperationException("Falha ao atualizar o usuário.");
+        _repository!.Update(user);
         _unitOfWork!.Commit();
-
-        return FromEntityToOutput(entity);
     }
 }

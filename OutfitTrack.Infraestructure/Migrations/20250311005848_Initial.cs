@@ -88,7 +88,7 @@ namespace OutfitTrack.Infraestructure.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     email = table.Column<string>(type: "VARCHAR(256)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    senha = table.Column<string>(type: "VARCHAR(100)", nullable: false)
+                    senha = table.Column<string>(type: "VARCHAR(200)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     data_expiracao_token = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     data_cadastro = table.Column<DateTime>(type: "DATETIME", nullable: false),

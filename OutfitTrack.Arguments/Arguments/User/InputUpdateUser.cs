@@ -13,16 +13,12 @@ public class InputUpdateUser
     [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial.")]
     public string? Password { get; private set; }
 
-    [Compare("Password", ErrorMessage = "As senhas não coincidem.")]
-    public string? ConfirmPassword { get; private set; }
-
     public InputUpdateUser() { }
 
     [JsonConstructor]
-    public InputUpdateUser(string? email, string? password, string? confirmPassword)
+    public InputUpdateUser(string? email, string? password)
     {
         Email = email;
         Password = password;
-        ConfirmPassword = confirmPassword;
     }
 }

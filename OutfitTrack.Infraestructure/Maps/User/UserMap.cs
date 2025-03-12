@@ -33,7 +33,7 @@ public class UserMap : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.Password).HasColumnName("senha");
         builder.Property(x => x.Password).IsRequired();
-        builder.Property(x => x.Password).HasColumnType("VARCHAR(100)");
+        builder.Property(x => x.Password).HasColumnType("VARCHAR(200)");
         builder.Property(x => x.Password).ValueGeneratedNever();
 
         builder.Property(x => x.TokenExpirationDate).HasColumnName("data_expiracao_token");

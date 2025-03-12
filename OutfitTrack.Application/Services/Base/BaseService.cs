@@ -120,5 +120,5 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
 }
 
 #region All Parameters
-public class BaseService_0(IUnitOfWork unitOfWork) : BaseService<IBaseRepository_0, object, object, BaseEntity_0, object, object>(unitOfWork) { }
+public class BaseService_0() : BaseService<IBaseRepository_0, object, object, BaseEntity_0, object, object>(default) { }
 #endregion

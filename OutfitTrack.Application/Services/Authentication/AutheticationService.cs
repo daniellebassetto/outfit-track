@@ -11,25 +11,23 @@ using System.Text;
 
 namespace OutfitTrack.Application.Services;
 
-public class AuthenticationService(IUnitOfWork unitOfWork, IHttpContextAccessor httpContext, IUserRepository userRepository) : BaseService_0(unitOfWork), IAuthenticationService
+public class AuthenticationService(IHttpContextAccessor httpContext, IUserRepository userRepository, IUserService userService) : BaseService_0, IAuthenticationService
 {
     private readonly HttpContext _httpContext = httpContext.HttpContext;
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly IUserService _userService = userService;
 
     public OutputAuthentication? Authenticate(InputAuthentication inputAuthentication)
     {
         User? user = _userRepository.GetByIdentifier(new InputIdentifierUser(inputAuthentication.Email));
 
-        if (user is not null)
+        if (user != null)
         {
-            if (inputAuthentication.Password == user.Password)
+            if (PasswordEncryption.Verify(inputAuthentication.Password, user.Password!))
             {
                 var token = GenerateJwtToken(user.Id.ToString()!, user.Email!);
                 
-                user.SetProperty(nameof(User.TokenExpirationDate), DateTime.UtcNow.AddDays(7));
-
-                _userRepository!.Update(user);
-                _unitOfWork!.Commit();
+                _userService.UpdateTokenExpirationDate(user.Id!.Value);
 
                 return new OutputAuthentication(token, DateTime.UtcNow.AddDays(7));
             }

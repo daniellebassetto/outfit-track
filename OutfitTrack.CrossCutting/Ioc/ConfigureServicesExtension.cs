@@ -38,6 +38,7 @@ public static class ConfigureServicesExtension
         AddScoped();
         AddSingleton();
         AddSwaggerGen();
+        AddToken();
         AddMySql();
         AddCors();
         AddRateLimit();
