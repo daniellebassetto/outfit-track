@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OutfitTrack.Application.ApiManagement;
 using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Arguments;
 
 namespace OutfitTrack.Api.Controllers;
 
@@ -36,11 +37,11 @@ public class BaseController<TIService, TInputCreate, TInputUpdate, TOutput, TInp
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<BaseResponseApi<string>>(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<BaseResponseApi<IEnumerable<TOutput>>>> GetAll()
+    public virtual async Task<ActionResult<BaseResponseApi<IEnumerable<PaginatedResult<TOutput>>>>> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         try
         {
-            return await ResponseAsync(_service!.GetAll());
+            return await ResponseAsync(_service!.GetAll(pageNumber, pageSize));
         }
         catch (Exception ex)
         {

@@ -1,5 +1,6 @@
 ﻿using OutfitTrack.Application.ApiManagement;
 using OutfitTrack.Application.Interfaces;
+using OutfitTrack.Arguments;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces;
 
@@ -24,10 +25,23 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
     }
 
     #region Read
-    public virtual IEnumerable<TOutput>? GetAll()
+    public virtual PaginatedResult<TOutput>? GetAll(int pageNumber, int pageSize)
     {
-        var listEntity = _repository!.GetAll();
-        return listEntity != null ? FromEntityToOutput(listEntity) : null;
+        var paginatedEntities = _repository!.GetAll(pageNumber, pageSize);
+
+        if (paginatedEntities != null && paginatedEntities.Items?.Count() > 0)
+        {
+            var outputList = FromEntityToOutput(paginatedEntities.Items);
+
+            return new PaginatedResult<TOutput>
+            {
+                Items = outputList,
+                TotalItems = paginatedEntities.TotalItems,
+                CurrentPage = paginatedEntities.CurrentPage,
+                PageSize = paginatedEntities.PageSize
+            };
+        }
+        return null;
     }
 
     public virtual TOutput? Get(long id)

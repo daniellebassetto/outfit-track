@@ -1,4 +1,6 @@
-﻿namespace OutfitTrack.Application.Interfaces;
+﻿using OutfitTrack.Arguments;
+
+namespace OutfitTrack.Application.Interfaces;
 
 public interface IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentifier>
    where TInputCreate : class
@@ -6,7 +8,7 @@ public interface IBaseService<TInputCreate, TInputUpdate, TOutput, TInputIdentif
    where TOutput : class
    where TInputIdentifier : class
 {
-    IEnumerable<TOutput>? GetAll();
+    PaginatedResult<TOutput>? GetAll(int pageNumber, int pageSize);
     TOutput? Get(long id);
     TOutput? GetByIdentifier(TInputIdentifier inputIdentifier);
     TOutput? Create(TInputCreate entity);

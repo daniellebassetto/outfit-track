@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OutfitTrack.Arguments;
 using OutfitTrack.Domain.Entities;
 using OutfitTrack.Domain.Interfaces;
 using System.Linq.Expressions;
@@ -13,11 +14,30 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
     protected readonly OutfitTrackContext _context = context;
 
     #region Read
-    public IEnumerable<TEntity>? GetAll()
+    public PaginatedResult<TEntity>? GetAll(int pageNumber, int pageSize)
     {
+        if (pageNumber <= 0)
+            pageNumber = 1;
+        if (pageSize <= 0)
+            pageSize = 10;
+
         IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
         query = BaseRepository<TEntity, TInputIdentifier>.IncludeVirtualProperties(query);
-        return [.. query];
+
+        var totalItems = query.Count(); 
+
+        var items = query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+        return new PaginatedResult<TEntity>
+        {
+            Items = items,
+            TotalItems = totalItems,
+            CurrentPage = pageNumber,
+            PageSize = pageSize
+        };
     }
 
     public TEntity? Get(Expression<Func<TEntity, bool>> predicate)

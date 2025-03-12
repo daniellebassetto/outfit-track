@@ -1,4 +1,5 @@
-﻿using OutfitTrack.Domain.Entities;
+﻿using OutfitTrack.Arguments;
+using OutfitTrack.Domain.Entities;
 using System.Linq.Expressions;
 
 namespace OutfitTrack.Domain.Interfaces;
@@ -7,7 +8,7 @@ public interface IBaseRepository<TEntity, TInputIdentifier>
     where TEntity : BaseEntity<TEntity>
     where TInputIdentifier : class
 {
-    IEnumerable<TEntity>? GetAll();
+    PaginatedResult<TEntity>? GetAll(int pageNumber, int pageSize);
     TEntity? Get(Expression<Func<TEntity, bool>> predicate);
     IEnumerable<TEntity>? GetList(Expression<Func<TEntity, bool>> predicate);
     TEntity? GetByIdentifier(TInputIdentifier inputIdentifier);
