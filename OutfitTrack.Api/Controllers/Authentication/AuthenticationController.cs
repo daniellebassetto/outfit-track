@@ -27,9 +27,9 @@ public class AuthenticationController(IApiDataService apiDataService, IAuthentic
 
     #region IgnoreApi
     [ApiExplorerSettings(IgnoreApi = true)]
-    public override Task<ActionResult<BaseResponseApi<IEnumerable<object>>>> GetAll()
+    public override Task<ActionResult<BaseResponseApi<IEnumerable<object>>>> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        return base.GetAll();
+        return base.GetAll(pageNumber, pageSize);
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]

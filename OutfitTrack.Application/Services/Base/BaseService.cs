@@ -24,9 +24,9 @@ public class BaseService<TIBaseRepository, TInputCreate, TInputUpdate, TEntity, 
     }
 
     #region Read
-    public virtual IEnumerable<TOutput>? GetAll()
+    public virtual IEnumerable<TOutput>? GetAll(int pageNumber, int pageSize)
     {
-        var listEntity = _repository!.GetAll();
+        var listEntity = _repository!.GetAll(pageNumber, pageSize);
         return listEntity != null ? FromEntityToOutput(listEntity) : null;
     }
 

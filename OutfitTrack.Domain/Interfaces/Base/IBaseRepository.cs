@@ -7,7 +7,7 @@ public interface IBaseRepository<TEntity, TInputIdentifier>
     where TEntity : BaseEntity<TEntity>
     where TInputIdentifier : class
 {
-    IEnumerable<TEntity>? GetAll();
+    IEnumerable<TEntity>? GetAll(int pageNumber, int pageSize);
     TEntity? Get(Expression<Func<TEntity, bool>> predicate);
     IEnumerable<TEntity>? GetList(Expression<Func<TEntity, bool>> predicate);
     TEntity? GetByIdentifier(TInputIdentifier inputIdentifier);

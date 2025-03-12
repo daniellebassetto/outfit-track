@@ -13,10 +13,16 @@ public class BaseRepository<TEntity, TInputIdentifier>(OutfitTrackContext contex
     protected readonly OutfitTrackContext _context = context;
 
     #region Read
-    public IEnumerable<TEntity>? GetAll()
+    public IEnumerable<TEntity>? GetAll(int pageNumber, int pageSize)
     {
+        if (pageNumber < 1)
+            pageNumber = 1;
+        if (pageSize < 1)
+            pageSize = 10;
+
         IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
         query = BaseRepository<TEntity, TInputIdentifier>.IncludeVirtualProperties(query);
+        query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         return [.. query];
     }
 

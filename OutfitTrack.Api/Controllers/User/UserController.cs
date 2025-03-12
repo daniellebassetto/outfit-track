@@ -48,9 +48,9 @@ public class UserController(IApiDataService apiDataService, IUserService service
 
     #region IgnoreApi
     [ApiExplorerSettings(IgnoreApi = true)]
-    public override Task<ActionResult<BaseResponseApi<IEnumerable<OutputUser>>>> GetAll()
+    public override Task<ActionResult<BaseResponseApi<IEnumerable<OutputUser>>>> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        return base.GetAll();
+        return base.GetAll(pageNumber, pageSize);
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
