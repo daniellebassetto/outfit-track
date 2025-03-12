@@ -6,7 +6,7 @@ using OutfitTrack.Domain.Interfaces;
 
 namespace OutfitTrack.Application.Services;
 
-public class UserService(IUnitOfWork unitOfWork) : BaseService<IUserRepository, InputCreateUser, InputUpdateUser, User, OutputUser, InputIdentifierUser>(unitOfWork), IUserService 
+public class UserService(IUnitOfWork unitOfWork) : BaseService<IUserRepository, InputCreateUser, InputUpdateUser, User, OutputUser, InputIdentifierUser>(unitOfWork), IUserService
 {
     public override OutputUser Create(InputCreateUser inputCreate)
     {

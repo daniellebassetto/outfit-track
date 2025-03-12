@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace OutfitTrack.Application.Security;
+﻿namespace OutfitTrack.Application.Security;
 
 using System;
 using System.Security.Cryptography;
@@ -8,7 +6,7 @@ using System.Security.Cryptography;
 public static class PasswordEncryption
 {
     private const int SaltSize = 16;
-    private const int KeySize = 24; 
+    private const int KeySize = 24;
     private const int Iterations = 100_000;
 
     public static string Encrypt(string password)

@@ -26,7 +26,7 @@ public class AuthenticationService(IHttpContextAccessor httpContext, IUserReposi
             if (PasswordEncryption.Verify(inputAuthentication.Password, user.Password!))
             {
                 var token = GenerateJwtToken(user.Id.ToString()!, user.Email!);
-                
+
                 _userService.UpdateTokenExpirationDate(user.Id!.Value);
 
                 return new OutputAuthentication(token, DateTime.UtcNow.AddDays(7));
