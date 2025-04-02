@@ -34,6 +34,7 @@ public static class ConfigureServicesExtension
         Configuration = configuration;
 
         AddControlers();
+        AddOpenApi();
         AddOptions();
         AddScoped();
         AddSingleton();
@@ -55,6 +56,11 @@ public static class ConfigureServicesExtension
             options.SerializerSettings.Formatting = Formatting.Indented;
             options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         });
+    }
+
+    private static void AddOpenApi()
+    {
+        ServiceCollection.AddOpenApi();
     }
 
     private static void AddOptions()
@@ -185,14 +191,21 @@ public static class ConfigureServicesExtension
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
             options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpcontext =>
-                                    RateLimitPartition.GetFixedWindowLimiter(partitionKey: httpcontext.Request.Headers.Host.ToString(),
-                                    factory: partition => new FixedWindowRateLimiterOptions
-                                    {
-                                        AutoReplenishment = true,
-                                        PermitLimit = 2,
-                                        QueueLimit = 0,
-                                        Window = TimeSpan.FromSeconds(5)
-                                    }));
+            {
+                var path = httpcontext.Request.Path.Value?.ToLower();
+
+                if (path != null && (path.StartsWith("/api-docs") || path.StartsWith("/swagger") || path.StartsWith("/favicon.ico") || path.StartsWith("/scalar")))
+                    return RateLimitPartition.GetNoLimiter("ScalarDocs");
+
+                return RateLimitPartition.GetFixedWindowLimiter(partitionKey: httpcontext.Request.Headers.Host.ToString(),
+                    factory: partition => new FixedWindowRateLimiterOptions
+                    {
+                        AutoReplenishment = true,
+                        PermitLimit = 10,
+                        QueueLimit = 2,
+                        Window = TimeSpan.FromSeconds(10)
+                    });
+            });
         });
     }
 
