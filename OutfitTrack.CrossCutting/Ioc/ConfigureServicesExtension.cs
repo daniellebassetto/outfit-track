@@ -175,7 +175,7 @@ public static class ConfigureServicesExtension
 
     private static void AddCors()
     {
-        ServiceCollection.AddCors(options => options.AddPolicy("wasm", policy => policy.WithOrigins("http://localhost:3000").AllowAnyMethod().SetIsOriginAllowed(pol => true).AllowAnyHeader().AllowCredentials()));
+        ServiceCollection.AddCors(options => options.AddPolicy("wasm", policy => policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "http://localhost:3000").AllowAnyMethod().SetIsOriginAllowed(pol => true).AllowAnyHeader().AllowCredentials()));
     }
 
     private static void AddRateLimit()
@@ -189,7 +189,7 @@ public static class ConfigureServicesExtension
                                     factory: partition => new FixedWindowRateLimiterOptions
                                     {
                                         AutoReplenishment = true,
-                                        PermitLimit = 2,
+                                        PermitLimit = 20,
                                         QueueLimit = 0,
                                         Window = TimeSpan.FromSeconds(5)
                                     }));
