@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OutfitTrack.Infraestructure;
 
@@ -11,9 +12,11 @@ using OutfitTrack.Infraestructure;
 namespace OutfitTrack.Infraestructure.Migrations
 {
     [DbContext(typeof(OutfitTrackContext))]
-    partial class OutfitTrackContextModelSnapshot : ModelSnapshot
+    [Migration("20250813234026_FixComplementCustomer")]
+    partial class FixComplementCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

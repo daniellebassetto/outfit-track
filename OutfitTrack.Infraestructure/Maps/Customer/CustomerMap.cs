@@ -54,7 +54,6 @@ public class CustomerMap : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.Street).ValueGeneratedNever();
 
         builder.Property(x => x.Complement).HasColumnName("complemento");
-        builder.Property(x => x.Complement).IsRequired();
         builder.Property(x => x.Complement).HasColumnType("VARCHAR(100)").HasMaxLength(100);
         builder.Property(x => x.Complement).ValueGeneratedNever();
 
